@@ -39,6 +39,7 @@ public class GUI extends JFrame implements MouseListener
 		add(big);
 		addMouseListener(this);
 		setBackground(Color.white);
+		setSize(600, 600);
 	}
 	public void init()
 	{
@@ -51,6 +52,7 @@ public class GUI extends JFrame implements MouseListener
 			}
 			catch (Exception e){}
 		}
+		setVisible(true);
 		player = new Player(frame.phold);
 		ai = new AI(frame.ahold);
 		ai.table = table;
