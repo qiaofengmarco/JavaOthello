@@ -102,8 +102,10 @@ public class GUI extends JFrame implements MouseListener
 					a++;
 		if (p > a)
 			System.out.println("Congratulation! You win!");
-		else
+		else if (a > p)
 			System.out.println("Sorry! AI wins!");
+		else 
+			System.out.println("Draw!");
 	}
 	public void play()
 	{
