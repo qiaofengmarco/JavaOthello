@@ -53,6 +53,11 @@ public class GUI extends JFrame implements MouseListener
 			catch (Exception e){}
 		}
 		setVisible(true);
+		try
+		{
+			Thread.sleep(200);
+		}
+		catch (Exception e){}		
 		player = new Player(frame.phold);
 		ai = new AI(frame.ahold);
 		ai.table = table;
