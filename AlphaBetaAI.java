@@ -47,9 +47,9 @@ public class AlphaBetaAI extends AI
 				for (int j = 1; j <= 8; j++)
 				{
 					if (pt.bigTable[i][j] == hold)
-						sum += value[(i - 1) * 8 + j] + 0.5;
+						sum += value[(i - 1) * 8 + j] + 1;
 					else if (table.bigTable[i][j] == -hold)
-						sum -= value[(i - 1) * 8 + j] - 0.5;
+						sum -= value[(i - 1) * 8 + j];
 				}
 			return sum;
 		}
@@ -90,7 +90,7 @@ public class AlphaBetaAI extends AI
 			{
 				for (int i = 1; i <= steps[0]; i++)
 				{
-					temp = AlphaBeta(steps[i], table, 3, -100000, 100000, hold);
+					temp = AlphaBeta(steps[i], table, 4, -100000, 100000, hold);
 					if (temp > max)
 					{
 						max = temp;
