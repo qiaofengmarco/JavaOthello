@@ -98,7 +98,7 @@ public class GUI extends JFrame implements MouseListener
 			for (int j = 1; j <= 8; j++)
 				if (table.bigTable[i][j] == player.hold)
 					p++;
-				else
+				else if (table.bigTable[i][j] == ai.hold)
 					a++;
 		if (p > a)
 			System.out.println("Congratulation! You win!");
