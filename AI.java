@@ -5,10 +5,6 @@ public class AI extends Player
 	{
 		super(h);
 	}
-	public void setTable(Table t)
-	{
-		table = t;
-	}
 	public int move()
 	{
 		int[] steps = new int[65];

@@ -122,6 +122,7 @@ public class GUI extends JFrame implements MouseListener
 		while (true)
 		{
 			big.repaint();
+			
 			if (now == ai.hold)
 			{
 				//System.out.println("aaa");
@@ -134,6 +135,11 @@ public class GUI extends JFrame implements MouseListener
 				}
 				else
 				{
+					if (count1 > 0)
+					{
+						checkWinner();
+						break;
+					}
 					count1++;
 					//System.out.println();
 				}

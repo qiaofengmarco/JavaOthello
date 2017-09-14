@@ -2,7 +2,7 @@ public class Game
 {
 	public static void main(String[] args)
 	{
-		GUI game = new GUI();
+		TrainFrame game = new TrainFrame();
 		//game.setSize(600, 600);
 		//game.setVisible(true);
 		game.play();
