@@ -1,7 +1,7 @@
 public class Table
 {
 	public int[][] bigTable;
-	public int bhand = 0, whand = 0, hand = 0;
+	public int bhand = 2, whand = 2, hand = 4;
 	private int[] MoveX = {0,  0, 0, -1,  1, -1, 1, -1, 1};
 	private int[] MoveY = {0, -1, 1, -1, -1,  0, 0,  1, 1};
 	Table()
