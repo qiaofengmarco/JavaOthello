@@ -1,7 +1,7 @@
 public class Table
 {
 	public int[][] bigTable;
-	public int hand = 0;
+	public int bhand = 0, whand = 0, hand = 0;
 	private int[] MoveX = {0,  0, 0, -1,  1, -1, 1, -1, 1};
 	private int[] MoveY = {0, -1, 1, -1, -1,  0, 0,  1, 1};
 	Table()
@@ -17,6 +17,14 @@ public class Table
 		bigTable[4][5] = 1;
 		bigTable[5][4] = 1;
 		bigTable[5][5] = -1;
+	}
+	public int getHand(int a)
+	{
+		if (a == 1)
+			return bhand;
+		else if (a == -1) 
+			return whand;
+		return 0;
 	}
 	public void set(int x, int y, int who)
 	{
@@ -47,10 +55,12 @@ public class Table
 				}
 			}
 		}
-		//System.out.printf("%d, %d\n", x, y);
-		//System.out.println();
 		bigTable[x][y] = who;
 		hand++;
+		if (who == 1)
+			bhand++;
+		else if (who == -1)
+			whand++;
 	}
 	public boolean checkStep(int x, int y, int who)
 	{

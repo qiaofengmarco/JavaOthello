@@ -47,9 +47,9 @@ public class AlphaBetaAI extends AI
 				for (int j = 1; j <= 8; j++)
 				{
 					if (pt.bigTable[i][j] == hold)
-						sum += value[(i - 1) * 8 + j] + 1;
+						sum += value[(i - 1) * 8 + j] + 20.0 / (double)(65.0 - pt.hand);
 					else if (table.bigTable[i][j] == -hold)
-						sum -= value[(i - 1) * 8 + j];
+						sum -= value[(i - 1) * 8 + j] + 20.0 / (double)(65.0 - pt.hand);
 				}
 			return sum;
 		}
