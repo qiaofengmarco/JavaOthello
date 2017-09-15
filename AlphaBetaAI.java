@@ -6,10 +6,10 @@ public class AlphaBetaAI extends AI
 		super(h);
 		for (int i = 1; i <= 64; i++)
 			value[i] = 0;
-		value[1] = 50;
-		value[8] = 50;
-		value[57] = 50;
-		value[64] = 50;
+		value[1] = 100;
+		value[8] = 100;
+		value[57] = 100;
+		value[64] = 100;
 		value[2] = -25;
 		value[7] = -25;
 		value[9] = -25;
@@ -47,9 +47,9 @@ public class AlphaBetaAI extends AI
 				for (int j = 1; j <= 8; j++)
 				{
 					if (pt.bigTable[i][j] == hold)
-						sum += value[(i - 1) * 8 + j] + 20.0 / (double)(65.0 - pt.hand);
+						sum += value[(i - 1) * 8 + j] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
 					else if (table.bigTable[i][j] == -hold)
-						sum -= value[(i - 1) * 8 + j] + 20.0 / (double)(65.0 - pt.hand);
+						sum -= value[(i - 1) * 8 + j] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
 				}
 			return sum;
 		}

@@ -9,7 +9,6 @@ public class TrainFrame extends JFrame
 	private AlphaBetaAI ab;
 	private Table table = new Table();
 	private int now = 1;
-	private boolean lock = true, done = false;
 	public TrainFrame()
 	{
 		super("Othello");
@@ -57,12 +56,8 @@ public class TrainFrame extends JFrame
 	public void checkWinner()
 	{
 		int b = 0, a = 0;
-		for (int i = 1; i <= 8; i++)
-			for (int j = 1; j <= 8; j++)
-				if (table.bigTable[i][j] == ab.hold)
-					b++;
-				else if (table.bigTable[i][j] == ai.hold)
-					a++;
+		b = table.getHand(ab.hold);
+		a = table.getHand(ai.hold);
 		if (b > a)
 			System.out.println("AlphaBetaAI wins!");
 		else if (a > b)
@@ -73,7 +68,6 @@ public class TrainFrame extends JFrame
 	public void play()
 	{
 		int step1, count1 = 0;
-		int[] moves = new int[65];
 		init();
 		while (true)
 		{

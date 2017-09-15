@@ -101,12 +101,8 @@ public class GUI extends JFrame implements MouseListener
 	public void checkWinner()
 	{
 		int p = 0, a = 0;
-		for (int i = 1; i <= 8; i++)
-			for (int j = 1; j <= 8; j++)
-				if (table.bigTable[i][j] == player.hold)
-					p++;
-				else if (table.bigTable[i][j] == ai.hold)
-					a++;
+		p = table.getHand(player.hold);
+		a = table.getHand(ai.hold);
 		if (p > a)
 			System.out.println("Congratulation! You win!");
 		else if (a > p)
