@@ -102,17 +102,17 @@ public class NeuralNetwork
 	public double backward(double y, double t)
 	{
 		double[][] error = new double[2][16];
-		double error1 = de(t) * (t - y);
 		double temp = 0;
+		double error1 = de(t) * (t - y);
 		for (int i = 0; i < 16; i++)
 		{
-			v[3][i][0] = 0.9 * v[3][i][0] + 0.002 * error1 * t;
-			w[3][i][0] -= v[3][i][0];
-			vv[3][i] = 0.9 * vv[3][i] + 0.002 * error1;
-			b[3][i] -= v[3][i];
+			//output layer
+			adam(3, i, 0, error1 * t); 
+			adam_b(3, 0, error1);
 			
+			//n-1 hidden layer
 			error[1][i] = de(sum[2][i]) * w[3][i][0] * error1;
-			adam(2, i, 0, error1 * sum[2][0]);
+			adam(2, i, 0, error1 * sum[2][i]);
 			adam_b(2, i, error1);
 		}
 		for (int k = 1; k >= 0; k--)
@@ -120,12 +120,12 @@ public class NeuralNetwork
 			{
 				temp = 0;
 				for (int j = 0; j < 16; j++)
-					temp += error[k + 1][j] * w[k + 1][i][j];
+					temp += error[k][j] * w[k + 1][i][j];
 				if (k > 0)
 					error[k - 1][i] = de(sum[k][i]) * temp;
-				adam_b(k, i, error[k][i]);
+				adam_b(k, i, error[k][i]); //error in the last round
 				for (int j = 0; j < 16; j++)
-					adam(k, i, j, error[k][i] * sum[k][j]);
+					adam(k, i, j, error[k][i] * sum[k][i]);
 			}
 	}
 }
