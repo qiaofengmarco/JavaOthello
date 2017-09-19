@@ -16,9 +16,9 @@ public class NeuralNetwork
 		w = new double[4][][];
 		v = new double[4][][];
 		m = new double[4][][];
-		w[0] = new double[64][16];
-		v[0] = new double[64][16];
-		m[0] = new double[64][16];
+		w[0] = new double[65][16];
+		v[0] = new double[65][16];
+		m[0] = new double[65][16];
 		w[3] = new double[16][1];
 		v[3] = new double[16][1];
 		m[3] = new double[16][1];
@@ -28,7 +28,7 @@ public class NeuralNetwork
 			v[i] = new double[16][16];
 			m[i] = new double[16][16];
 		}
-		for (int i = 0; i < 64; i++)
+		for (int i = 0; i < 65; i++)
 			for (int j = 0; j < 16; j++)
 			{
 					kk = (int)(Math.random() * 2);
@@ -53,18 +53,23 @@ public class NeuralNetwork
 				b[i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
 			}
 	}
+	public void load()
+	{
+		
+	}
 	public double LRelu(double a)
 	{
 		if (a >= 0)
 			return a;
 		return 0.25 * a;
 	}
-	public double forward(int[] x)
+	public double forward(int[] x) 
+	//x is a 65 * 1 vector, represent state St(64 * 1 vector) and reward R 
 	{
 		double ans = 0;
 		for (int j = 0; j < 16; j++)
 		{
-			for (int i = 0; i < 64; i++)
+			for (int i = 0; i < 65; i++)
 				sum[0][j] += x[i] * w[0][i][j];
 			sum[0][j] = LRelu(sum[0][j] + b[0][j]);
 		}
