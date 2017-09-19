@@ -16,16 +16,16 @@ public class NeuralNetwork
 		b = new double[4][];
 		for (int i = 0; i <= 2; i++)
 			b[i] = new double[16];
-		b[3] = new double[1];
+		b[3] = new double[2];
 		w = new double[4][][];
 		v = new double[4][][];
 		m = new double[4][][];
 		w[0] = new double[65][16];
 		v[0] = new double[65][16];
 		m[0] = new double[65][16];
-		w[3] = new double[16][1];
-		v[3] = new double[16][1];
-		m[3] = new double[16][1];
+		w[3] = new double[16][2];
+		v[3] = new double[16][2];
+		m[3] = new double[16][2];
 		for (int i = 1; i <= 2; i++)
 		{
 			w[i] = new double[16][16];
@@ -59,18 +59,25 @@ public class NeuralNetwork
 						handler.writeDouble(w[i][j][k]);
 					}
 			for (int i = 0; i < 16; i++)
-			{
-				kk = (int)(Math.random() * 2);
-				w[3][i][0] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
-				handler.writeDouble(w[3][i][0]);
-			}
-			for (int i = 0; i < 4; i++)
+				for (int j = 0; j < 2; j++)
+				{
+					kk = (int)(Math.random() * 2);
+					w[3][i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
+					handler.writeDouble(w[3][i][j]);
+				}
+			for (int i = 0; i < 3; i++)
 				for (int j = 0; j < 16; j++)
 				{
 					kk = (int)(Math.random() * 2);
 					b[i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
 					handler.writeDouble(b[i][j]);
 				}
+			for (int i = 0; i < 2; i++)
+			{
+				kk = (int)(Math.random() * 2);
+				b[3][i] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
+				handler.writeDouble(b[3][i]);
+			}				
 			handler.flush();
 			handler.closeAll();
 		}
@@ -89,10 +96,13 @@ public class NeuralNetwork
 				for (int k = 0; k < 16; k++)
 					handler.writeDouble(w[i][j][k]);
 		for (int i = 0; i < 16; i++)
-			handler.writeDouble(w[3][i][0]);
-		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 2; j++)
+				handler.writeDouble(w[3][i][j]);
+		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 16; j++)
 				handler.writeDouble(b[i][j]);
+		for (int i = 0; i < 2; i++)
+			handler.writeDouble(b[3][i]);
 		handler.flush();
 		handler.closeAll();	
 	}
@@ -108,10 +118,13 @@ public class NeuralNetwork
 				for (int k = 0; k < 16; k++)
 					w[i][j][k] = handler.readDouble();
 		for (int i = 0; i < 16; i++)
-			w[3][i][0] = handler.readDouble();
-		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 2; j++)
+				w[3][i][j] = handler.readDouble();
+		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 16; j++)
 				b[i][j] = handler.readDouble();
+		for (int i = 0; i < 2; i++)
+			b[3][i] = handler.readDouble();
 		handler.closeAll();			
 	}
 	public double LRelu(double a)
@@ -120,7 +133,7 @@ public class NeuralNetwork
 			return a;
 		return 0.25 * a;
 	}
-	public double forward(int[] x) 
+	public double forward(int[] x, int hold) 
 	//x is a 65 * 1 vector, representing state St(64 * 1 vector) and action A
 	{
 		double ans = 0;
@@ -137,9 +150,19 @@ public class NeuralNetwork
 					sum[k][j] += sum[k - 1][j] * w[k][i][j];
 				sum[k][j] = LRelu(sum[k][j] + b[k][j]);
 			}
-		for (int i = 1; i < 16; i++)
-			ans += sum[2][i] * w[3][i][0];
-		return ans + b[3][0];
+		if (hold == -1)
+		{
+			for (int i = 1; i < 16; i++)
+				ans += sum[2][i] * w[3][i][0];
+			return ans + b[3][0];
+		}
+		else if (hold == 1)
+		{
+			for (int i = 1; i < 16; i++)
+				ans += sum[2][i] * w[3][i][1];
+			return ans + b[3][1];			
+		}
+		return 0;
 	}
 	public double de(double a)
 	{
@@ -159,7 +182,7 @@ public class NeuralNetwork
 		vv[i][j] = 0.999 * vv[i][j] + 0.001 * a * a;
 		b[i][j] -= rate * mm[i][j] / (Math.sqrt(vv[i][j]) + 1e-6);
 	}
-	public void backward(double y, double t)
+	public void backward(double y, double t, int hold)
 	{
 		double[][] error = new double[2][16];
 		double temp = 0;
@@ -171,8 +194,16 @@ public class NeuralNetwork
 			adam_b(3, 0, error1);
 			
 			//n-1 hidden layer
-			error[1][i] = de(sum[2][i]) * w[3][i][0] * error1;
-			adam(2, i, 0, error1 * sum[2][i]);
+			if (hold == -1)
+			{
+				error[1][i] = de(sum[2][i]) * w[3][i][0] * error1;
+				adam(2, i, 0, error1 * sum[2][i]);
+			}
+			else if (hold == 1)
+			{
+				error[1][i] = de(sum[2][i]) * w[3][i][1] * error1;
+				adam(2, i, 1, error1 * sum[2][i]);
+			}
 			adam_b(2, i, error1);
 		}
 		for (int k = 1; k >= 0; k--)

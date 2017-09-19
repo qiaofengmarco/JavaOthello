@@ -52,6 +52,19 @@ public class QLearningAI extends AI
 			return a;
 		return b;
 	}
+	private double evaluate(int[] x)
+	{
+		double sum = 0;
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				if (pt.bigTable[i][j] == hold)
+					sum += value[(i - 1) * 8 + j] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
+				else if (table.bigTable[i][j] == -hold)
+					sum -= value[(i - 1) * 8 + j] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
+			}
+		return sum;		
+	}
 	private void Q_learning()
 	{
 		int step;
