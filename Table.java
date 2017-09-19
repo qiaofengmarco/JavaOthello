@@ -4,7 +4,7 @@ public class Table
 	public int bhand = 2, whand = 2, hand = 4;
 	private int[] MoveX = {0,  0, 0, -1,  1, -1, 1, -1, 1};
 	private int[] MoveY = {0, -1, 1, -1, -1,  0, 0,  1, 1};
-	Table()
+	public Table()
 	{
 		bigTable = new int[9][];
 		for (int i = 0; i <= 8; i++)
@@ -17,6 +17,20 @@ public class Table
 		bigTable[4][5] = 1;
 		bigTable[5][4] = 1;
 		bigTable[5][5] = -1;
+	}
+	public Table(int[] s)
+	{
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+				bigTable[i][j] = s[(i - 1) * 8 + j];
+	}
+	public int[] getTable()
+	{
+		int[] ans = new int[64];
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+				ans[(i - 1) * 8 + j] = bigTable[i][j];
+		return ans;
 	}
 	public int getHand(int a)
 	{

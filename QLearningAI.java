@@ -2,31 +2,55 @@ import java.io.*;
 import java.util.*;
 public class QLearningAI extends AI
 {
-	class Transition
+	private class SA
 	{
-		public Table t1, t2;
-		public int action, reward;
-		public Transition()
+		public int[] s = new int[64];
+		public int action;
+		public String str ="";
+		public SA(int[] ss, int a)
 		{
-			t1 = new Table();
-			t2 = new Table();
-			action = 0;
-			reward = 0;
-		}
-		public set(Table tt1, int a, int r, Table tt2)
-		{
-			t1 = tt1;
-			t2 = tt2;
+			for (int i = 0; i < 64; i++)
+			{
+				s[i] = ss[i];
+				str += Integer.toString(s[i]);
+			}
 			action = a;
-			reward = r;
 		}
+		@Override
+		public int hashCode()
+		{
+			return str.hashCode();
+		}
+		@Override 
+		public boolean equals(Object o)
+		{
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			SA sa = (SA) o;
+			if (sa.action != this.action)
+				return false;
+			for (int i = 0; i < 64; i++)
+				if (sa.s[i] != s[i]) return false;
+			return true;			
+		}
+	}
+	private class TR
+	{
+		public int[][] st = new[2][64];
+		public int a;
+		public double r;
 	}
 	private double[] value = new double[65];
 	private	int[] steps = new int[65];
-	private file dir, f;
+	private NeuralNetwork dqn;
+	private HashMap<SA, double> Q;
 	public QLearningAI(int h)
 	{
 		super(h);
+		if (h == 1)
+			dqn = new NeuralNetwork("black.txt");
+		else if (h == -1)
+			dqn = new NeuralNetwork("white.txt");
 		for (int i = 1; i <= 64; i++)
 			value[i] = 0;
 		value[1] = 1;
@@ -62,17 +86,18 @@ public class QLearningAI extends AI
 		for (int i = 0; i <= 64; i++)
 		{
 			if (x[i] == hold)
-				sum += value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand);
+				sum += (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
 			else if (x[i] == -hold)
-				sum -= value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand);
+				sum -= (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
 		}
-		return sum;		
+		return 1.0 / (1.0 + Math.exp(-sum));		
 	}
-	private void Q_learning()
+	public void Q_learning()
 	{
 		int step;
-		Table pre = new Table();
-		Table s = new Table();
+		LinkedList<TR> D = new LinkedList<TR>();
+		SA sa;
+		Q = new HashMap<SA, double>();
 		for (int episode = 1; episode <= 300; episode++)
 		{
 			for (int t = 1; t <= 100; t++)
