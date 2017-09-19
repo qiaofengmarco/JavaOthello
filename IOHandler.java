@@ -4,8 +4,8 @@ public class IOHandler
 {
 	private FileInputStream fi;
 	private FileOutputStream fo;
-	private DataInputStream oi;
-	private DataOutputStream oo;
+	private ObjectInputStream oi;
+	private ObjectOutputStream oo;
 	private String fileName;
 	private File f;
 	public IOHandler(String name)
@@ -26,7 +26,7 @@ public class IOHandler
 		try 
 		{
 			fi = new FileInputStream(fileName);
-			oi = new DataInputStream(fi);
+			oi = new ObjectInputStream(fi);
 		}
 		catch(IOException e){}
 	}
@@ -44,7 +44,7 @@ public class IOHandler
 		try 
 		{
 			fo = new FileOutputStream(fileName);
-			oo = new DataOutputStream(fo);
+			oo = new ObjectOutputStream(fo);
 		}
 		catch(IOException e){}
 	}

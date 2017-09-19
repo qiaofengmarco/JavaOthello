@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 public class NeuralNetwork
 {
-	private double rate = 0.002;
+	private double rate = 0.001;
 	private double[][] sum = new double[3][16];
 	private double[][][] w, v, m;
 	private double[][] vv, mm, b;
@@ -131,7 +131,7 @@ public class NeuralNetwork
 	{
 		if (a >= 0)
 			return a;
-		return 0.25 * a;
+		return 0.3 * a;
 	}
 	public double forward(int[] x, int hold) 
 	//x is a 65 * 1 vector, representing state St(64 * 1 vector) and action A
@@ -168,7 +168,7 @@ public class NeuralNetwork
 	{
 		if (a >= 0)
 			return 1.0;
-		return 0.25;
+		return 0.3;
 	}
 	public void adam(int i, int j, int k, double a)
 	{
