@@ -55,12 +55,16 @@ public class QLearningAI extends AI
 	private double evaluate(int[] x)
 	{
 		double sum = 0;
+		int hand = 0;
+		for (int i = 0; i <= 64; i++)
+			if (x[i] != 0)
+				hand++;
 		for (int i = 0; i <= 64; i++)
 		{
 			if (x[i] == hold)
-				sum += value[i] * (32.0 / (double)(pt.hand)) + 0.32 / (double)(65.0 - pt.hand);
+				sum += value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand);
 			else if (x[i] == -hold)
-				sum -= value[i] * (32.0 / (double)(pt.hand)) + 0.32 / (double)(65.0 - pt.hand);
+				sum -= value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand);
 		}
 		return sum;		
 	}
