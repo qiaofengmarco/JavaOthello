@@ -74,6 +74,8 @@ public class NeuralNetwork
 			handler.flush();
 			handler.closeAll();
 		}
+		else
+			load();
 	}
 	public void store()
 	{
