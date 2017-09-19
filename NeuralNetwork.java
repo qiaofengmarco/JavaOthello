@@ -189,18 +189,23 @@ public class NeuralNetwork
 		double error1 = de(t) * (t - y);
 		for (int i = 0; i < 16; i++)
 		{
-			//output layer
-			adam(3, i, 0, error1 * t); 
-			adam_b(3, 0, error1);
-			
-			//n-1 hidden layer
 			if (hold == -1)
 			{
+				//output layer
+				adam(3, i, 0, error1 * t); 
+				adam_b(3, 0, error1);
+				
+				//n-1 hidden layer
 				error[1][i] = de(sum[2][i]) * w[3][i][0] * error1;
-				adam(2, i, 0, error1 * sum[2][i]);
+				adam(2, i, 0, error1 * sum[2][i]);			
 			}
 			else if (hold == 1)
 			{
+				//output layer
+				adam(3, i, 1, error1 * t); 
+				adam_b(3, 1, error1);
+				
+				//n-1 hidden layer
 				error[1][i] = de(sum[2][i]) * w[3][i][1] * error1;
 				adam(2, i, 1, error1 * sum[2][i]);
 			}
@@ -217,7 +222,7 @@ public class NeuralNetwork
 				}
 				if (k > 0)
 					error[k - 1][i] = de(sum[k][i]) * temp;
-				adam_b(k, i, error[k][i]); //error in the last round
+				adam_b(k, i, error[k][i]); 
 			}
 	}
 }
