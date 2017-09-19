@@ -1,11 +1,9 @@
 public class NeuralNetwork
 {
-	private rate = 0.002;
+	private double rate = 0.002;
 	private double[][] sum = new double[3][16];
-	public double[][][] w;
-	public double[][][] v;
-	public double[][] vv;
-	public double[][] b;
+	private double[][][] w, v, m;
+	private double[][] vv, mm, b;
 	public NeuralNetwork()
 	{
 		int kk = 0;
@@ -59,7 +57,7 @@ public class NeuralNetwork
 	{
 		if (a >= 0)
 			return a;
-		return 0.01 * a;
+		return 0.25 * a;
 	}
 	public double forward(int[] x)
 	{
@@ -78,14 +76,14 @@ public class NeuralNetwork
 				sum[k][j] = LRelu(sum[k][j] + b[k][j]);
 			}
 		for (int i = 1; i < 16; i++)
-			ans += sum[2][i] * w[3][i];
-		return LRelu(ans + b[3][0]);
+			ans += sum[2][i] * w[3][i][0];
+		return ans + b[3][0];
 	}
 	public double de(double a)
 	{
 		if (a >= 0)
 			return 1.0;
-		return 0.01;
+		return 0.25;
 	}
 	public void adam(int i, int j, int k, double a)
 	{
@@ -99,7 +97,7 @@ public class NeuralNetwork
 		vv[i][j] = 0.999 * vv[i][j] + 0.001 * a * a;
 		b[i][j] -= rate * mm[i][j] / (Math.sqrt(vv[i][j]) + 1e-6);
 	}
-	public double backward(double y, double t)
+	public void backward(double y, double t)
 	{
 		double[][] error = new double[2][16];
 		double temp = 0;
@@ -120,12 +118,13 @@ public class NeuralNetwork
 			{
 				temp = 0;
 				for (int j = 0; j < 16; j++)
+				{
 					temp += error[k][j] * w[k + 1][i][j];
+					adam(k, i, j, error[k][i] * sum[k][i]);
+				}
 				if (k > 0)
 					error[k - 1][i] = de(sum[k][i]) * temp;
 				adam_b(k, i, error[k][i]); //error in the last round
-				for (int j = 0; j < 16; j++)
-					adam(k, i, j, error[k][i] * sum[k][i]);
 			}
 	}
 }
