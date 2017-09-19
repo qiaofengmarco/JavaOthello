@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.*;
 public class IOHandler
 {
-	private FileInputStream fi = null;
-	private FileOutputStream fo = null;
-	private ObjectInputStream oi = null;
-	private ObjectOutputStream oo = null;
+	private FileInputStream fi;
+	private FileOutputStream fo;
+	private DataInputStream oi;
+	private DataOutputStream oo;
 	private String fileName;
 	private File f;
 	public IOHandler(String name)
@@ -26,7 +26,7 @@ public class IOHandler
 		try 
 		{
 			fi = new FileInputStream(fileName);
-			oi = new ObjectInputStream(fi);
+			oi = new DataInputStream(fi);
 		}
 		catch(IOException e){}
 	}
@@ -44,7 +44,7 @@ public class IOHandler
 		try 
 		{
 			fo = new FileOutputStream(fileName);
-			oo = new ObjectOutputStream(fo);
+			oo = new DataOutputStream(fo);
 		}
 		catch(IOException e){}
 	}
@@ -104,4 +104,20 @@ public class IOHandler
 		catch (IOException e){}
 		return d;
 	}
+	/*
+	public static void main(String[] args)
+	{
+		IOHandler handler = new IOHandler("test.txt");
+		handler.openFileWrite();
+		handler.writeDouble(0.21);
+		handler.writeDouble(0.22);
+		handler.flush();
+		handler.closeAll();
+		double a, b;
+		handler.openFileRead();
+		a = handler.readDouble();
+		b = handler.readDouble();
+		System.out.printf("%2f %2f\n", a, b);
+		handler.closeAll();
+	}*/
 }
