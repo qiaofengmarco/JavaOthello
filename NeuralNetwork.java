@@ -1,12 +1,16 @@
+import java.io.*;
+import java.util.*;
 public class NeuralNetwork
 {
 	private double rate = 0.002;
 	private double[][] sum = new double[3][16];
 	private double[][][] w, v, m;
 	private double[][] vv, mm, b;
-	public NeuralNetwork()
+	private String path;
+	public NeuralNetwork(String name)
 	{
 		int kk = 0;
+		path = name;
 		vv = new double[4][16];
 		mm = new double[4][16];
 		b = new double[4][];
@@ -28,34 +32,85 @@ public class NeuralNetwork
 			v[i] = new double[16][16];
 			m[i] = new double[16][16];
 		}
+		
+		File f = new File(name);
+		if (!f.exists())
+		{
+			try 
+			{
+				f.createNewFile();
+			}
+			catch(IOException e){}
+			IOHandler handler = new IOHandler(path);
+			handler.openFileWrite();
+			for (int i = 0; i < 65; i++)
+				for (int j = 0; j < 16; j++)
+				{
+						kk = (int)(Math.random() * 2);
+						w[0][i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
+						handler.writeDouble(w[0][i][j]);
+				}
+			for (int i = 1; i < 3; i++)
+				for (int j = 0; j < 16; j++)
+					for (int k = 0; k < 16; k++)
+					{
+						kk = (int)(Math.random() * 2);
+						w[i][j][k] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
+						handler.writeDouble(w[i][j][k]);
+					}
+			for (int i = 0; i < 16; i++)
+			{
+				kk = (int)(Math.random() * 2);
+				w[3][i][0] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
+				handler.writeDouble(w[3][i][0]);
+			}
+			for (int i = 0; i < 4; i++)
+				for (int j = 0; j < 16; j++)
+				{
+					kk = (int)(Math.random() * 2);
+					b[i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
+					handler.writeDouble(b[i][j]);
+				}
+			handler.flush();
+			handler.closeAll();
+		}
+	}
+	public void store()
+	{
+		IOHandler handler = new IOHandler(path);
+		handler.openFileWrite();
 		for (int i = 0; i < 65; i++)
 			for (int j = 0; j < 16; j++)
-			{
-					kk = (int)(Math.random() * 2);
-					w[0][i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
-			}
+				handler.writeDouble(w[0][i][j]);
 		for (int i = 1; i < 3; i++)
 			for (int j = 0; j < 16; j++)
 				for (int k = 0; k < 16; k++)
-				{
-					kk = (int)(Math.random() * 2);
-					w[i][j][k] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
-				}
+					handler.writeDouble(w[i][j][k]);
 		for (int i = 0; i < 16; i++)
-		{
-			kk = (int)(Math.random() * 2);
-			w[3][i][0] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
-		}
+			handler.writeDouble(w[3][i][0]);
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 16; j++)
-			{
-				kk = (int)(Math.random() * 2);
-				b[i][j] = (Math.random() * 9 + 1) * 0.1 * ((int)Math.pow(-1, kk));
-			}
+				handler.writeDouble(b[i][j]);
+		handler.flush();
+		handler.closeAll();	
 	}
 	public void load()
 	{
-		
+		IOHandler handler = new IOHandler(path);
+		handler.openFileRead();
+		for (int i = 0; i < 65; i++)
+			for (int j = 0; j < 16; j++)
+				w[0][i][j] = handler.readDouble();
+		for (int i = 1; i < 3; i++)
+			for (int j = 0; j < 16; j++)
+				for (int k = 0; k < 16; k++)
+					w[i][j][k] = handler.readDouble();
+		for (int i = 0; i < 16; i++)
+			w[3][i][0] = handler.readDouble();
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 16; j++)
+				b[i][j] = handler.readDouble();
+		handler.closeAll();			
 	}
 	public double LRelu(double a)
 	{
@@ -64,7 +119,7 @@ public class NeuralNetwork
 		return 0.25 * a;
 	}
 	public double forward(int[] x) 
-	//x is a 65 * 1 vector, represent state St(64 * 1 vector) and reward R 
+	//x is a 65 * 1 vector, representing state St(64 * 1 vector) and action A
 	{
 		double ans = 0;
 		for (int j = 0; j < 16; j++)
