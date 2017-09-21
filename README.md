@@ -14,6 +14,11 @@
    https://www.zybuluo.com/hanbingtao/note/476663
    http://shuokay.com/2016/06/11/optimization/
 2. 新增IOHandler
-3. 下一步：终于开始写QLearningAI了...
+
+## 2017.9.22更新：
+1. 修复了之前NeuralNetwork不严谨的地方，重写了backward函数
+2. 完成了QLearningAI的代码以及初步调试
+3. 新增了很多static function作为辅助函数
+4. 下一步：训练并调试QLearningAI...
 
 **更新于2017.9.19**
