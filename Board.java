@@ -24,11 +24,16 @@ public class Board
 			for (int j = 1; j <= 8; j++)
 				bigTable[i][j] = s[(i - 1) * 8 + j];
 	}
-	public static int[] trans(int[] s1, int action, int hold)
+	public static int[] nextState(int[] s1, int action, int hold)
 	{
 		Board t = new Board(s1);
 		t.set((action - 1) / 8 + 1, (action - 1) % 8 + 1, hold);
 		return t.getTable();
+	}
+	public static int[] searchNext(int[] s1, int hold)
+	{
+		Board t = new Board(s1);
+		return t.nextSteps(hold);
 	}
 	public int[] getTable()
 	{

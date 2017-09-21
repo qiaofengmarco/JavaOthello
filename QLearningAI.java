@@ -1,11 +1,13 @@
 import java.io.*;
 import java.util.*;
+import com.google.common.collect.*;
 public class QLearningAI extends AI
 {
 	private double[] value = new double[65];
 	private	int[] steps = new int[65];
 	private NeuralNetwork dqn;
-	private HashMap<SA, double> Q;
+	private Table<Integer[], Integer, Double> Q;
+	private double epsilon = 0.65;
 	public QLearningAI(int h)
 	{
 		super(h);
@@ -54,27 +56,35 @@ public class QLearningAI extends AI
 		}
 		return Math.tanh(sum);
 	}
-	public void Q_learning()
+	public int[] epsilon_greedy(int[] now, int hold)
 	{
 		int action;
-		LinkedList<TR> D = new LinkedList<TR>();
-		HashMap<S, S> theta = new HashMap<S, S>();
+		Random r = new Random();
+		double p = r.nextDouble();
+		if (p <= epsilon) //do argmax Q(s, a)
+		{
+		}
+		else //act randomly
+		{
+			int[] steps;
+			steps = Board.searchNext(now, hold);
+		}
+	}
+	public void qLearning()
+	{
+		int action;
 		double reward, temp, y;
-		Table t = new Table();
 		int[] now, next;
-		S s1, s2;
-		
-		Q = new HashMap<SA, double>();
+		Board board = new Board();
+		Q = HashBasedTable.create();
+		Map<Integer[], Integer[]> theta = new HashMap<Integer[], Integer[]>();
 		for (int episode = 1; episode <= 300; episode++)
 		{
-			s1 = new S(t.getTable());
-			theta.put(state, state);
-			now = s1.s;
-			temp = evaluate(now);
+			s1 = new S(board.getTable());
+			now = s1;
 			for (int t = 1; t <= 100; t++)
 			{
-				next = Table.trans(now, action, hold);
-				s2 = new Table(next);
+				
 				reward = evaluate(next) - temp;
 				
 				if (terminal())
