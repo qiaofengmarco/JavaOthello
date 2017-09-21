@@ -1,6 +1,6 @@
 public class AI extends Player
 {
-	public Table table;
+	public Board table;
 	AI(int h)
 	{
 		super(h);

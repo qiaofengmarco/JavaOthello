@@ -1,10 +1,10 @@
-public class Table
+public class Board
 {
 	public int[][] bigTable;
 	public int bhand = 2, whand = 2, hand = 4;
 	private int[] MoveX = {0,  0, 0, -1,  1, -1, 1, -1, 1};
 	private int[] MoveY = {0, -1, 1, -1, -1,  0, 0,  1, 1};
-	public Table()
+	public Board()
 	{
 		bigTable = new int[9][];
 		for (int i = 0; i <= 8; i++)
@@ -18,11 +18,17 @@ public class Table
 		bigTable[5][4] = 1;
 		bigTable[5][5] = -1;
 	}
-	public Table(int[] s)
+	public Board(int[] s)
 	{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 				bigTable[i][j] = s[(i - 1) * 8 + j];
+	}
+	public static int[] trans(int[] s1, int action, int hold)
+	{
+		Board t = new Board(s1);
+		t.set((action - 1) / 8 + 1, (action - 1) % 8 + 1, hold);
+		return t.getTable();
 	}
 	public int[] getTable()
 	{
@@ -115,5 +121,14 @@ public class Table
 					ans[ans[0]] = (i - 1) * 8 + j;
 				}
 		return ans;		
+	}
+	public boolean terminal()
+	{
+		int[] a, b;
+		a = nextSteps(1);
+		if (a[0] > 0) return false;
+		b = nextSteps(-1);
+		if (b[0] > 0) return false;
+		return true;
 	}
 }

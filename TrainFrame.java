@@ -7,7 +7,7 @@ public class TrainFrame extends JFrame
 	public JPanel big;
 	private AI ai;
 	private AlphaBetaAI ab;
-	private Table table = new Table();
+	private Board table = new Board();
 	private int now = 1;
 	public TrainFrame()
 	{

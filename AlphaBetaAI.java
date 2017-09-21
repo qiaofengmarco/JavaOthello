@@ -35,7 +35,7 @@ public class AlphaBetaAI extends AI
 			return a;
 		return b;
 	}
-	private double AlphaBeta(int s, Table pt, int depth, double a, double b, int h)
+	private double AlphaBeta(int s, Board pt, int depth, double a, double b, int h)
 	{
 		int[] moves = new int[65];
 		pt.set((s - 1) / 8 + 1, (s - 1) % 8 + 1, h);

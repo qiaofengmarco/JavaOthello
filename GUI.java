@@ -7,7 +7,7 @@ public class GUI extends JFrame implements MouseListener
 	public JPanel big;
 	private Player player;
 	private AI ai;
-	private Table table = new Table();
+	private Board table = new Board();
 	private int now = 1;
 	private boolean lock = true, done = false;
 	public GUI()

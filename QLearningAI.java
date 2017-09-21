@@ -2,44 +2,6 @@ import java.io.*;
 import java.util.*;
 public class QLearningAI extends AI
 {
-	private class SA
-	{
-		public int[] s = new int[64];
-		public int action;
-		public String str ="";
-		public SA(int[] ss, int a)
-		{
-			for (int i = 0; i < 64; i++)
-			{
-				s[i] = ss[i];
-				str += Integer.toString(s[i]);
-			}
-			action = a;
-		}
-		@Override
-		public int hashCode()
-		{
-			return str.hashCode();
-		}
-		@Override 
-		public boolean equals(Object o)
-		{
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
-			SA sa = (SA) o;
-			if (sa.action != this.action)
-				return false;
-			for (int i = 0; i < 64; i++)
-				if (sa.s[i] != s[i]) return false;
-			return true;			
-		}
-	}
-	private class TR
-	{
-		public int[][] st = new[2][64];
-		public int a;
-		public double r;
-	}
 	private double[] value = new double[65];
 	private	int[] steps = new int[65];
 	private NeuralNetwork dqn;
@@ -90,19 +52,35 @@ public class QLearningAI extends AI
 			else if (x[i] == -hold)
 				sum -= (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
 		}
-		return 1.0 / (1.0 + Math.exp(-sum));		
+		return Math.tanh(sum);
 	}
 	public void Q_learning()
 	{
-		int step;
+		int action;
 		LinkedList<TR> D = new LinkedList<TR>();
-		SA sa;
+		HashMap<S, S> theta = new HashMap<S, S>();
+		double reward, temp, y;
+		Table t = new Table();
+		int[] now, next;
+		S s1, s2;
+		
 		Q = new HashMap<SA, double>();
 		for (int episode = 1; episode <= 300; episode++)
 		{
+			s1 = new S(t.getTable());
+			theta.put(state, state);
+			now = s1.s;
+			temp = evaluate(now);
 			for (int t = 1; t <= 100; t++)
 			{
+				next = Table.trans(now, action, hold);
+				s2 = new Table(next);
+				reward = evaluate(next) - temp;
 				
+				if (terminal())
+					y = reward;
+				else
+					y = reward + 0.5 * maxq(now);
 			}			
 		}
 	}
