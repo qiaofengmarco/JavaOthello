@@ -164,7 +164,7 @@ public class NeuralNetwork
 		for (int i = 0; i < 64; i++)
 		{
 			for (int j = 0; j < 100; j++)
-				sum[3][j] += sum[2][i] * w[3][i][j];
+				sum[3][i] += sum[2][j] * w[3][j][i];
 			sum[3][i] = Math.tanh(sum[3][i] + b[3][i]);
 		}
 		return sum[3][action];
@@ -181,48 +181,75 @@ public class NeuralNetwork
 		vv[i][j] = 0.999 * vv[i][j] + 0.001 * a * a;
 		b[i][j] -= rate * mm[i][j] / (Math.sqrt(vv[i][j]) + 1e-6);
 	}
-	public void backward(double[] y, double[] t)
+	public void backward(int[] x, int action, double y, double t)
 	{
-		double[][] error;
-		error = new double[3][];
-		for (int i = 0; i < 2; i++)
-			error[i] = new double[100];
-		error[2] = new double[64];
-		double temp = 0;
+		forward(x, action);
 		
-		//error of output layer
-		for (int i = 0; i < 64; i++)
-			error[2][i] = (1 - Math.pow(y[i], 2.0)) * (y[i] - t[i]);
+		double[][] error;
+		error = new double[4][];
+		for (int i = 0; i < 3; i++)
+			error[i] = new double[100];
+		error[3] = new double[1];
+		double temp = 0;
+				
+		//error of output layer		
+		//dE / dnet_j = df * (y - t)
+		//dE /dw_i,j = dE / dnet_j * x_i,j
+		
+		error[3][0] = (1 - Math.pow(y, 2.0)) * (y - t);	
+		
+		//[output -> (n-1) hidden] and [(n-1) hidden -> (n-2) hidden]		
+		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k)
+		//dE /dw_i,j = dE / dnet_j * x_i,j
+		
+		for (int i = 0; i < 100; i++)
+		{	
+			//update w_3,i,action and b_3,action 
+			adam(3, i, action, error[3][0] * sum[2][i]); 
+			adam_b(3, action, error[3][0]);
+			
+			//I have simplified this... 
+			error[2][i] = error[3][0] * w[3][i][action] * de(sum[3][action]);
+			
+			for (int j = 0; j < 100; j++)
+				adam(2, j, i, error[2][i] * sum[1][j]);
+			
+			adam_b(2, i, error[2][i]);
+		}
+		
+	
+		//[(n-2) hidden -> (n-3) hidden]
+		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k)
+		//dE /dw_i,j = dE / dnet_j * x_i,j
 		
 		for (int i = 0; i < 100; i++)
 		{
 			temp = 0;
-			for (int j = 0; j < 64; j++)
+			for (int j = 0; j < 100; j++)
 			{
-				//output layer weight update
-				adam(3, i, j, error[2][j] * sum[3][j]); 
-				adam_b(3, j, error[2][j]);
-				
-				//the last hidden layer weight update
-				temp += error[2][j] * w[3][i][j];
-				adam(2, i, j, error[2][i] * sum[2][i]);				
+				for (int k = 0; k < 100; k++)
+					temp += error[2][k] * w[2][j][k];
+				error[1][j] = temp * de(sum[1][i]);
+				adam(1, i, j, error[1][j] * sum[0][i]);
 			}
-			error[1][i] = de(sum[2][i]) * temp;
-			adam_b(2, i, error[2][i]);
+			adam_b(1, i, error[1][i]); 
 		}
 		
-		for (int k = 1; k >= 0; k--)
-			for (int i = 0; i < 100; i++)
+		//[(n-3) hidden -> input]
+		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k)
+		//dE /dw_i,j = dE / dnet_j * x_i,j
+		
+		for (int i = 0; i < 64; i++)
+		{
+			temp = 0;
+			for (int j = 0; j < 100; j++)
 			{
-				temp = 0;
-				for (int j = 0; j < 100; j++)
-				{
-					temp += error[k][j] * w[k + 1][i][j];
-					adam(k, i, j, error[k][i] * sum[k][i]);
-				}
-				if (k > 0)
-					error[k - 1][i] = de(sum[k][i]) * temp;
-				adam_b(k, i, error[k][i]); 
+				for (int k = 0; k < 100; k++)
+					temp += error[1][k] * w[1][j][k];
+				error[0][j] = temp * de(sum[0][i]);
+				adam(0, i, j, error[0][j] * x[i]);
 			}
+			adam_b(0, i, error[0][i]);
+		}
 	}
 }

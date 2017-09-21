@@ -45,10 +45,10 @@ public class QLearningAI extends AI
 	{
 		double sum = 0;
 		int hand = 0;
-		for (int i = 0; i <= 64; i++)
+		for (int i = 0; i < 64; i++)
 			if (x[i] != 0)
 				hand++;
-		for (int i = 0; i <= 64; i++)
+		for (int i = 0; i < 64; i++)
 		{
 			if (x[i] == hold)
 				sum += (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
@@ -61,7 +61,7 @@ public class QLearningAI extends AI
 	{
 		int action;
 		int[] next;
-		int[][] out = new int[2][];
+		int[][] out = new int[2][64];
 		Random r = new Random();
 		double p = r.nextDouble(), max = -100000, temp, reward = 0;
 		int[] steps;
@@ -163,9 +163,9 @@ public class QLearningAI extends AI
 	{
 		Transition[] ans = new Transition[8];
 		int count = 0;
-		int m = (int)(Math.random() * 8);
+		int m = (int)(Math.random() * 4);
 		for (int i = 0; i < 32; i++)
-			if (i % 8 == m)
+			if (i % 4 == m)
 			{
 				ans[count] = D.get(i);
 				count++;
@@ -174,38 +174,56 @@ public class QLearningAI extends AI
 	}
 	public void qLearning()
 	{
-		int action;
-		double reward;
+		double reward, temp;
+		Double d;
 		double[] y = new double[8], t = new double[8];
 		int[] now, next;
 		int[][] out = new int[2][];
 		Transition[] minibatch = new Transition[8];
+		
 		for (int episode = 1; episode <= 200; episode++)
 		{
 			now = Board.getInit();
+			System.out.printf("episode: %d\n", episode);
 			for (int T = 1; T <= 200; T++)
 			{
 				out = epsilon_greedy_move(now); //e-greedy and store the transition
 				now = out[0];
 				next = out[1];
 				
-				minibatch = sampling(); //sampling minibatch
-				for (int i = 0; i < 8; i++)
+				if (D.size() == 32)
 				{
-					Integer[] st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);					
-					Integer a = new Integer(minibatch[i].action);
-					t[i] = Q.get(st, a).doubleValue();
+					minibatch = sampling(); //sampling minibatch
 					
-					// yi = ri                          for terminal s_t+1
-					//    = ri + gamma * max Q(s', a')  for non-terminal s_t+1
-					if (Board.terminal(minibatch[i].s2))
-						y[i] = minibatch[i].reward;
-					else
-						y[i] = minibatch[i].reward + gamma * maxQ(minibatch[i].s2);
-				}
+					for (int i = 0; i < 8; i++)
+					{						
+						Integer[] st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
+						Integer a = new Integer(minibatch[i].action);
+						
+						if (Q.contains(st, a))
+						{
+							t[i] = Q.get(st, a).doubleValue();
+						}
+						else
+						{
+							temp = dqn.forward(minibatch[i].s1, minibatch[i].action);
+							d = new Double(temp);
+							Q.put(st, a, d);
+							t[i] = temp;
+						}
+						// yi = ri                          for terminal s_t+1
+						//    = ri + gamma * max Q(s', a')  for non-terminal s_t+1
+						if (Board.terminal(minibatch[i].s2))
+							y[i] = minibatch[i].reward;
+						else
+							y[i] = minibatch[i].reward + gamma * maxQ(minibatch[i].s2);
+						
+						//gradient descent
+						//only doing backward update will change the weights of dqn
+						dqn.backward(minibatch[i].s1, minibatch[i].action, y[i], t[i]);
+					}
 				
-				//gradient descent
-				dqn.backward(y, t);
+				}
 				
 				if (Board.terminal(next))
 					now = Board.getInit();
@@ -213,5 +231,17 @@ public class QLearningAI extends AI
 					now = next;
 			}			
 		}
+	}
+	public static void main(String[] args)
+	{
+		int kk = (int)(Math.random() * 2);
+		kk = (int)Math.pow(-1, kk);
+		if (kk == 1)
+			System.out.println("Training black...");
+		else
+			System.out.println("Training white...");
+		QLearningAI ai = new QLearningAI(kk);
+		ai.qLearning();
+		System.out.println("Finish");
 	}
 }
