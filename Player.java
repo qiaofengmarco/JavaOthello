@@ -1,7 +1,7 @@
 public class Player
 {
 	public int hold;
-	Player(int h)
+	public Player(int h)
 	{
 		hold = h;
 	}

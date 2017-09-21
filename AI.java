@@ -1,9 +1,19 @@
-public class AI extends Player
+public class AI
 {
 	public Board table;
-	AI(int h)
+	public int hold;
+	public AI(int h)
 	{
-		super(h);
+		hold = h;
+	}
+	public AI(int[] x, int h)
+	{
+		table = new Board(x);
+		hold = h;
+	}
+	public void setBoard(int[] x)
+	{
+		table = new Board(x);
 	}
 	public int move()
 	{
@@ -17,7 +27,7 @@ public class AI extends Player
 			else
 				step = steps[(int)(Math.random() * steps[0]) + 1];
 			//System.out.printf("%d\n", steps[0]);
-			table.set((step - 1) / 8 + 1, (step - 1) % 8 + 1, hold);			
+			table.set(step / 8 + 1, step % 8 + 1, hold);			
 			return step;
 		}
 		return -1;

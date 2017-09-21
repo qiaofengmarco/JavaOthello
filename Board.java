@@ -22,12 +22,35 @@ public class Board
 	{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
-				bigTable[i][j] = s[(i - 1) * 8 + j];
+			{
+				bigTable[i][j] = s[(i - 1) * 8 + j - 1];
+				if (bigTable[i][j] == 1)
+				{
+					bhand++;
+					hand++;
+				}
+				else if (bigTable[i][j] == -1)
+				{
+					whand++;
+					hand++;
+				}
+			}
+	}
+	public static int[] getInit()
+	{
+		int[] ans = new int[64];
+		for (int i = 0; i < 64; i++)
+			ans[i] = 0;
+		ans[27] = -1;
+		ans[28] = 1;
+		ans[35] = 1;
+		ans[36] = -1;
+		return ans;
 	}
 	public static int[] nextState(int[] s1, int action, int hold)
 	{
 		Board t = new Board(s1);
-		t.set((action - 1) / 8 + 1, (action - 1) % 8 + 1, hold);
+		t.set(action / 8 + 1, action % 8 + 1, hold);
 		return t.getTable();
 	}
 	public static int[] searchNext(int[] s1, int hold)
@@ -40,7 +63,7 @@ public class Board
 		int[] ans = new int[64];
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
-				ans[(i - 1) * 8 + j] = bigTable[i][j];
+				ans[(i - 1) * 8 + j - 1] = bigTable[i][j];
 		return ans;
 	}
 	public int getHand(int a)
@@ -123,17 +146,19 @@ public class Board
 				if (checkStep(i, j, who))
 				{
 					ans[0]++;
-					ans[ans[0]] = (i - 1) * 8 + j;
+					ans[ans[0]] = (i - 1) * 8 + j - 1;
 				}
 		return ans;		
 	}
-	public boolean terminal()
+	public static boolean terminal(int[] s)
 	{
-		int[] a, b;
-		a = nextSteps(1);
-		if (a[0] > 0) return false;
-		b = nextSteps(-1);
-		if (b[0] > 0) return false;
+		Board b = new Board(s);
+		if (b.hand == 64) return true;
+		int[] a1, b1;
+		a1 = b.nextSteps(1);
+		if (a1[0] > 0) return false;
+		b1 = b.nextSteps(-1);
+		if (b1[0] > 0) return false;
 		return true;
 	}
 }

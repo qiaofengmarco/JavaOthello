@@ -23,6 +23,10 @@ public class AlphaBetaAI extends AI
 		value[56] = -25;
 		value[63] = -25;
 	}
+	public AlphaBetaAI(int x[], int h)
+	{
+		super(x, h);
+	}
 	private double max(double a, double b)
 	{
 		if (a >= b)
@@ -38,7 +42,7 @@ public class AlphaBetaAI extends AI
 	private double AlphaBeta(int s, Board pt, int depth, double a, double b, int h)
 	{
 		int[] moves = new int[65];
-		pt.set((s - 1) / 8 + 1, (s - 1) % 8 + 1, h);
+		pt.set(s / 8 + 1, s % 8 + 1, h);
 		moves = pt.nextSteps(h);
 		if ((depth == 0) || (moves[0] == 0))
 		{
@@ -47,9 +51,9 @@ public class AlphaBetaAI extends AI
 				for (int j = 1; j <= 8; j++)
 				{
 					if (pt.bigTable[i][j] == hold)
-						sum += value[(i - 1) * 8 + j] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
+						sum += value[(i - 1) * 8 + j - 1] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
 					else if (table.bigTable[i][j] == -hold)
-						sum -= value[(i - 1) * 8 + j] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
+						sum -= value[(i - 1) * 8 + j - 1] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
 				}
 			return sum;
 		}
@@ -73,7 +77,7 @@ public class AlphaBetaAI extends AI
 				return b;
 			}			
 		}
-		return 0;
+		return 0.0;
 	}
 	@Override
 	public int move()
@@ -98,7 +102,7 @@ public class AlphaBetaAI extends AI
 					}
 				}
 			}
-			table.set((step - 1) / 8 + 1, (step - 1) % 8 + 1, hold);			
+			table.set(step / 8 + 1, step % 8 + 1, hold);			
 			return step;
 		}
 		return -1;

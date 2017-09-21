@@ -144,7 +144,7 @@ public class NeuralNetwork
 			return 1.0;
 		return 0.3;
 	}
-	public double[] forward(int[] x, int action) 
+	public double forward(int[] x, int action) 
 	//x is a 64 * 1 vector
 	{
 		double ans = 0;
@@ -167,7 +167,7 @@ public class NeuralNetwork
 				sum[3][j] += sum[2][i] * w[3][i][j];
 			sum[3][i] = Math.tanh(sum[3][i] + b[3][i]);
 		}
-		return sum[3];
+		return sum[3][action];
 	}
 	public void adam(int i, int j, int k, double a)
 	{
