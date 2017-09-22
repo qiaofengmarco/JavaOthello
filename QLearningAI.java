@@ -9,7 +9,7 @@ public class QLearningAI extends AI
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
 	private double epsilon = 0.85, gamma = 0.9;
-	private int maxSize = 2000, minibatchSize = 0;
+	private int maxSize = 500, minibatchSize = 0;
 	public QLearningAI(int h)
 	{
 		super(h);
@@ -231,7 +231,6 @@ public class QLearningAI extends AI
 			System.out.printf("episode: %d\n", episode);
 			for (int T = 1; T <= 200; T++)
 			{
-				//System.out.printf("T: %d\n", T);
 				out = epsilon_greedy_move(now); //e-greedy and store the transition
 				now = out[0];
 				next = out[1];
