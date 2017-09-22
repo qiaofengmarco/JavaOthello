@@ -15,16 +15,18 @@
    http://shuokay.com/2016/06/11/optimization/
 2. 新增IOHandler
 
-## 2017.9.22更新：
+## 2017.9.21更新：
 1. 修复了之前NeuralNetwork不严谨的地方，重写了backward函数
 2. 完成了QLearningAI的代码以及初步调试
 3. 新增了很多static function作为辅助函数
 
-## 2017.9.23更新：
-1. 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
-2. 调试完成了QLearningAI，对特殊情况进行了重写
+## 2017.9.22更新：
+1. (a) 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
+   (b) 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解
+   参考：http://blog.csdn.net/u014595019/article/details/52989301
+2. (a) 调试完成了QLearningAI，对特殊情况进行了重写
+   (b) 在重写backward函数的同时更正了之前对minibatch的错误更新方法
 3. 修复了之前很多的小bug
 4. 修改了TrainFrame.java的名字 -> Playground.java
-5. 下一步：编写QLearningAI的move函数，初步训练QLearningAI...
 
-**更新于2017.9.23**
+**更新于2017.9.22**
