@@ -9,6 +9,7 @@ public class QLearningAI extends AI
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
 	private double epsilon = 0.85, gamma = 0.5;
+	private int maxSize = 5000, minibatchSize = 0;
 	public QLearningAI(int h)
 	{
 		super(h);
@@ -148,7 +149,7 @@ public class QLearningAI extends AI
 			//store transition in memory D
 			Transition tr = new Transition(now, next, action, reward);
 			D.offer(tr);
-			if (D.size() > 32)
+			if (D.size() > maxSize)
 				D.pollFirst();
 		}
 		else
@@ -190,15 +191,28 @@ public class QLearningAI extends AI
 	}
 	public Transition[] sampling()
 	{
-		Transition[] ans = new Transition[8];
-		int count = 0;
-		int m = (int)(Math.random() * 4);
-		for (int i = 0; i < 32; i++)
-			if (i % 4 == m)
-			{
-				ans[count] = D.get(i);
-				count++;
-			}
+		minibatchSize = 0;
+		Transition[] ans = new Transition[32];
+		int count = 0, size = D.size(), temp;
+		if (size <= 32)
+		{
+			for (int i = 0; i <= 32; i++)
+				ans[i] = D.get(i);
+			minibatchSize = size;
+			return ans;
+		}
+		HashSet<Integer> set = new HashSet<Integer>();
+		while (set.size() < 32)
+		{
+			temp = (int)(Math.random() * size);
+			set.add(new Integer(temp));
+		}
+		for (Integer i : set)
+		{
+			ans[count] = D.get(i.intValue());
+			count++;
+		}
+		minibatchSize = 32;
 		return ans;
 	}
 	public void qLearning()
@@ -221,11 +235,10 @@ public class QLearningAI extends AI
 				now = out[0];
 				next = out[1];
 				
-				if (D.size() == 32)
+				if (D.size() > 0)
 				{
 					minibatch = sampling(); //sampling minibatch
-					
-					for (int i = 0; i < 8; i++)
+					for (int i = 0; i < minibatchSize; i++)
 					{						
 						Integer[] st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
 						Integer a = new Integer(minibatch[i].action);
@@ -243,9 +256,7 @@ public class QLearningAI extends AI
 						temp = dqn.backward(minibatch[i].s1, minibatch[i].action, y[i]);
 						d = new Double(temp);
 						Q.put(st, a, d);
-
 					}
-				
 				}
 				
 				if ((Board.terminal(next)) || (now == next))
