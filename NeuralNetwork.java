@@ -144,6 +144,12 @@ public class NeuralNetwork
 			return 1.0;
 		return 0.3;
 	}
+	public double re(double a)
+	{
+		if (a >= 0)
+			return a;
+		return a / 0.3;
+	}
 	public double forward(int[] x, int action) 
 	//x is a 64 * 1 vector
 	{
@@ -191,42 +197,48 @@ public class NeuralNetwork
 			error[i] = new double[100];
 		error[3] = new double[1];
 		double temp = 0;
-				
-		//error of output layer		
+			
+			
+		//[output -> (n-1) hidden]	
 		//dE / dnet_j = df * (y - t)
-		//dE /dw_i,j = dE / dnet_j * x_i,j
-		
-		error[3][0] = (1 - Math.pow(y, 2.0)) * (y - t);	
-		
-		//[output -> (n-1) hidden] and [(n-1) hidden -> (n-2) hidden]		
-		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k)
-		//dE /dw_i,j = dE / dnet_j * x_i,j
-		
+		//dE /dw_i,j = dE / dnet_j * x_i,j		
+		error[3][0] = (1 - Math.pow(y, 2.0)) * (y - t);			
 		for (int i = 0; i < 100; i++)
-		{	
+		{
 			//update w_3,i,action and b_3,action 
 			adam(3, i, action, error[3][0] * sum[2][i]); 
-			adam_b(3, action, error[3][0]);
-			
-			//I have simplified this... 
-			error[2][i] = error[3][0] * w[3][i][action] * de(sum[3][action]);
-			
+		}
+		adam_b(3, action, error[3][0]);		
+		
+		
+		
+		//[(n-1) hidden -> (n-2) hidden]
+		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k) where l is round and k is from j's downstream 
+		//dE /dw_i,j = dE / dnet_j * x_i,j		
+		for (int i = 0; i < 100; i++)
+		{
 			for (int j = 0; j < 100; j++)
-				adam(2, j, i, error[2][i] * sum[1][j]);
-			
+			{
+				//the statement below simply means:
+				//temp = error[2][0] * w[3][j][action];
+				//error[2][j] = temp * de(sum[2][j]);
+				
+				error[2][j] = error[3][0] * w[3][j][action] * de(sum[2][i]);
+				adam(2, i, j, error[2][j] * sum[1][i]);
+			}			
 			adam_b(2, i, error[2][i]);
 		}
 		
-	
-		//[(n-2) hidden -> (n-3) hidden]
-		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k)
-		//dE /dw_i,j = dE / dnet_j * x_i,j
 		
+		
+		//[(n-2) hidden -> (n-3) hidden]
+		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k) where l is round and k is from j's downstream 
+		//dE /dw_i,j = dE / dnet_j * x_i,j		
 		for (int i = 0; i < 100; i++)
 		{
-			temp = 0;
 			for (int j = 0; j < 100; j++)
 			{
+				temp = 0;
 				for (int k = 0; k < 100; k++)
 					temp += error[2][k] * w[2][j][k];
 				error[1][j] = temp * de(sum[1][i]);
@@ -235,15 +247,16 @@ public class NeuralNetwork
 			adam_b(1, i, error[1][i]); 
 		}
 		
-		//[(n-3) hidden -> input]
-		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k)
-		//dE /dw_i,j = dE / dnet_j * x_i,j
 		
+		
+		//[(n-3) hidden -> input]
+		//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k) where l is round and k is from j's downstream 
+		//dE /dw_i,j = dE / dnet_j * x_i,j		
 		for (int i = 0; i < 64; i++)
 		{
-			temp = 0;
 			for (int j = 0; j < 100; j++)
 			{
+				temp = 0;
 				for (int k = 0; k < 100; k++)
 					temp += error[1][k] * w[1][j][k];
 				error[0][j] = temp * de(sum[0][i]);
