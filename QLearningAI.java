@@ -8,7 +8,7 @@ public class QLearningAI extends AI
 	private NeuralNetwork dqn;
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
-	private double epsilon = 0.9, gamma = 0.5;
+	private double epsilon = 0.85, gamma = 0.5;
 	public QLearningAI(int h)
 	{
 		super(h);
@@ -78,9 +78,9 @@ public class QLearningAI extends AI
 			opponent.move();
 			now = opponent.table.getTable();
 			steps = Board.searchNext(now, hold);
-			st = Arrays.stream(now).boxed().toArray(Integer[]::new);
 		}
 		out[0] = now;
+		st = Arrays.stream(now).boxed().toArray(Integer[]::new);
 		
 		//e-greedy policy
 		action = steps[1];
