@@ -19,6 +19,12 @@
 1. 修复了之前NeuralNetwork不严谨的地方，重写了backward函数
 2. 完成了QLearningAI的代码以及初步调试
 3. 新增了很多static function作为辅助函数
-4. 下一步：训练并调试QLearningAI...
 
-**更新于2017.9.22**
+## 2017.9.23更新：
+1. 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
+2. 调试完成了QLearningAI，对特殊情况进行了重写
+3. 修复了之前很多的小bug
+4. 修改了TrainFrame.java的名字 -> Playground.java
+5. 下一步：编写QLearningAI的move函数，初步训练QLearningAI...
+
+**更新于2017.9.23**
