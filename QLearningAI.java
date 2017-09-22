@@ -256,6 +256,53 @@ public class QLearningAI extends AI
 		}
 		dqn.store();
 	}
+	@Override
+	public int move()
+	{
+		int[] steps = new int[65];
+		int step = -1;
+		double max = -100000, temp;
+		Integer a;
+		Double d;
+		int[] now = table.getTable();
+		Integer[] st = Arrays.stream(now).boxed().toArray(Integer[]::new);
+		steps = table.nextSteps(hold);
+		if (steps[0] > 0)
+		{
+			if (steps[0] == 1)
+				step = steps[1];
+			else
+			{
+				for (int i = 1; i <= steps[0]; i++)
+				{
+					a = new Integer(steps[i]);
+					if (Q.contains(st, a))
+					{
+						temp = Q.get(st, a).doubleValue();
+						if (temp > max)
+						{
+							max = temp;
+							step = steps[i];
+						}
+						else
+						{
+							temp = dqn.forward(now, steps[i]);
+							d = new Double(temp);
+							Q.put(st, a, d);
+							if (temp > max)
+							{
+								max = temp;
+								step = steps[i];
+							}
+						}
+					}			
+				}
+			}
+			table.set(step / 8 + 1, step % 8 + 1, hold);			
+			return step;
+		}
+		return -1;		
+	}
 	public static void main(String[] args)
 	{
 		int kk = (int)(Math.random() * 2);

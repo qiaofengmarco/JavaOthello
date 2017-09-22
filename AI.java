@@ -26,7 +26,6 @@ public class AI
 				step = steps[1];
 			else
 				step = steps[(int)(Math.random() * steps[0]) + 1];
-			//System.out.printf("%d\n", steps[0]);
 			table.set(step / 8 + 1, step % 8 + 1, hold);			
 			return step;
 		}
