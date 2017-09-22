@@ -114,12 +114,12 @@ public class QLearningAI extends AI
 		else //act randomly
 			action = steps[(int)(Math.random() * steps[0]) + 1];
 		next = Board.nextState(now, action, hold);
-		out[1] = next;
 		
 		//opponent move
 		opponent = new AlphaBetaAI(next, -hold);
 		int opmove = opponent.move();
 		next = opponent.table.getTable();
+		out[1] = next;
 		if (opmove >= 0)
 			reward = evaluate(now) - evaluate(next);
 		else
