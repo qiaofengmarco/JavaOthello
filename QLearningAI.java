@@ -9,7 +9,7 @@ public class QLearningAI extends AI
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
 	private double epsilon = 0.85, gamma = 0.9;
-	private int maxSize = 5000, minibatchSize = 0;
+	private int maxSize = 2000, minibatchSize = 0;
 	public QLearningAI(int h)
 	{
 		super(h);
@@ -218,6 +218,8 @@ public class QLearningAI extends AI
 	{
 		double reward, temp;
 		Double d;
+		Integer a;
+		Integer[] st;
 		double[] y = new double[32];
 		int[] now, next;
 		int[][] out = new int[2][];
@@ -239,8 +241,8 @@ public class QLearningAI extends AI
 					minibatch = sampling(); //sampling minibatch
 					for (int i = 0; i < minibatchSize; i++)
 					{					
-						Integer[] st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
-						Integer a = new Integer(minibatch[i].action);
+						st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
+						a = new Integer(minibatch[i].action);
 												
 						// yi = ri                          for terminal s_t+1
 						//    = ri + gamma * max Q(s', a')  for non-terminal s_t+1

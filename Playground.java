@@ -5,7 +5,7 @@ public class Playground extends JFrame
 {
 	public Chess[][] p;
 	public JPanel big;
-	private AI ai;
+	private QLearningAI ai;
 	private AlphaBetaAI ab;
 	private Board table = new Board();
 	private int now = 1;
@@ -44,7 +44,7 @@ public class Playground extends JFrame
 		int kk = (int)(Math.random() * 2);
 		kk = (int)Math.pow(-1, kk);
 		ab = new AlphaBetaAI(kk);
-		ai = new AI(-kk);
+		ai = new QLearningAI(-kk);
 		ai.table = table;
 		ab.table = table;
 		String ss = (kk == 1)?"black":"white";

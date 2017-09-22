@@ -7,6 +7,7 @@ public class NeuralNetwork
 	private double[][][] w, v, m;
 	private double[][] vv, mm, b;
 	private String path;
+	private double[][] error;
 	public NeuralNetwork(String name)
 	{
 		int kk = 0;
@@ -36,6 +37,10 @@ public class NeuralNetwork
 			v[i] = new double[100][100];
 			m[i] = new double[100][100];
 		}
+		error = new double[4][];
+		for (int i = 0; i < 3; i++)
+			error[i] = new double[100];
+		error[3] = new double[1];
 		
 		File f = new File(name);
 		if (!f.exists())
@@ -191,11 +196,6 @@ public class NeuralNetwork
 	public double backward(int[] x, int action, double y)
 	{
 		double t = forward(x, action);	
-		double[][] error;
-		error = new double[4][];
-		for (int i = 0; i < 3; i++)
-			error[i] = new double[100];
-		error[3] = new double[1];
 		double temp = 0;
 			
 			
