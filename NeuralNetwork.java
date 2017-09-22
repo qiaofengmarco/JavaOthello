@@ -267,24 +267,24 @@ public class NeuralNetwork
 			}
 		}
 		
-		for (int kk = 0; kk < minibatchSize; kk++)	
-		{
-			for (int i = 0; i < 100; i++)
+		for (int kk = 0; kk < minibatchSize; kk++)
+			if (ct[action[kk]] > 0)
 			{
-				dw[3][i][action[kk]] = (1.0 / ct[action[kk]]) * dw[3][i][action[kk]];
-				m[3][i][action[kk]] = 0.9 * m[3][i][action[kk]] + 0.1 * dw[3][i][action[kk]];
-				v[3][i][action[kk]] = 0.999 * v[3][i][action[kk]] + 0.001 * dw[3][i][action[kk]] * dw[3][i][action[kk]];
-				w[3][i][action[kk]] -= rate * m[3][i][action[kk]] / (Math.sqrt(v[3][i][action[kk]]) + 1e-8);
-				dw[3][i][action[kk]] = 0;
+				for (int i = 0; i < 100; i++)
+				{
+					dw[3][i][action[kk]] = (1.0 / ct[action[kk]]) * dw[3][i][action[kk]];
+					m[3][i][action[kk]] = 0.9 * m[3][i][action[kk]] + 0.1 * dw[3][i][action[kk]];
+					v[3][i][action[kk]] = 0.999 * v[3][i][action[kk]] + 0.001 * dw[3][i][action[kk]] * dw[3][i][action[kk]];
+					w[3][i][action[kk]] -= rate * m[3][i][action[kk]] / (Math.sqrt(v[3][i][action[kk]]) + 1e-8);
+					dw[3][i][action[kk]] = 0;
+				}
+				db[3][action[kk]] = (1.0 / ct[action[kk]]) * db[3][action[kk]];
+				mm[3][action[kk]] = 0.9 * mm[3][action[kk]] + 0.1 * db[3][action[kk]];
+				vv[3][action[kk]] = 0.999 * vv[3][action[kk]] + 0.001 * db[3][action[kk]] * db[3][action[kk]];
+				b[3][action[kk]] -= rate * mm[3][action[kk]] / (Math.sqrt(vv[3][action[kk]]) + 1e-8);
+				db[3][action[kk]] = 0;
 				ct[action[kk]] = 0;
 			}
-			db[3][action[kk]] = (1.0 / ct[action[kk]]) * db[3][action[kk]];
-			mm[3][action[kk]] = 0.9 * mm[3][action[kk]] + 0.1 * db[3][action[kk]];
-			vv[3][action[kk]] = 0.999 * vv[3][action[kk]] + 0.001 * db[3][action[kk]] * db[3][action[kk]];
-			b[3][action[kk]] -= rate * mm[3][action[kk]] / (Math.sqrt(vv[3][action[kk]]) + 1e-8);
-			db[3][action[kk]] = 0;
-			ct[action[kk]] = 0;
-		}
 			
 		for (int i = 0; i < 64; i++)
 			for (int j = 0; j < 100; j++)
