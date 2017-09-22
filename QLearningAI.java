@@ -191,12 +191,11 @@ public class QLearningAI extends AI
 	}
 	public Transition[] sampling()
 	{
-		minibatchSize = 0;
 		Transition[] ans = new Transition[32];
 		int count = 0, size = D.size(), temp;
 		if (size <= 32)
 		{
-			for (int i = 0; i <= 32; i++)
+			for (int i = 0; i < size; i++)
 				ans[i] = D.get(i);
 			minibatchSize = size;
 			return ans;
@@ -219,10 +218,10 @@ public class QLearningAI extends AI
 	{
 		double reward, temp;
 		Double d;
-		double[] y = new double[8];
+		double[] y = new double[32];
 		int[] now, next;
 		int[][] out = new int[2][];
-		Transition[] minibatch = new Transition[8];
+		Transition[] minibatch = new Transition[32];
 		
 		for (int episode = 1; episode <= 200; episode++)
 		{
@@ -239,7 +238,7 @@ public class QLearningAI extends AI
 				{
 					minibatch = sampling(); //sampling minibatch
 					for (int i = 0; i < minibatchSize; i++)
-					{						
+					{					
 						Integer[] st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
 						Integer a = new Integer(minibatch[i].action);
 												
