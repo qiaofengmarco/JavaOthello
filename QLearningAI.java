@@ -223,6 +223,8 @@ public class QLearningAI extends AI
 		double[] y = new double[32];
 		int[] now, next;
 		int[][] out = new int[2][];
+		int[][] input = new int[32][64];
+		int[] act = new int[32];
 		Transition[] minibatch = new Transition[32];
 		
 		for (int episode = 1; episode <= 200; episode++)
@@ -240,8 +242,10 @@ public class QLearningAI extends AI
 					minibatch = sampling(); //sampling minibatch
 					for (int i = 0; i < minibatchSize; i++)
 					{					
-						st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
+						st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);
 						a = new Integer(minibatch[i].action);
+						input[i] = minibatch[i].s1;
+						act[i] = minibatch[i].action;
 												
 						// yi = ri                          for terminal s_t+1
 						//    = ri + gamma * max Q(s', a')  for non-terminal s_t+1
@@ -249,14 +253,10 @@ public class QLearningAI extends AI
 							y[i] = minibatch[i].reward;
 						else
 							y[i] = minibatch[i].reward + gamma * maxQ(minibatch[i].s2);
-						
-						//gradient descent
-						//only doing backward update will change the weights of dqn
-						//update new Q(s, a) at the same time
-						temp = dqn.backward(minibatch[i].s1, minibatch[i].action, y[i]);
-						d = new Double(temp);
-						Q.put(st, a, d);
 					}
+					
+					//gradient descent
+					dqn.backward(input, act, y, minibatchSize);
 				}
 				
 				if ((Board.terminal(next)) || (now == next))
