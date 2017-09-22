@@ -233,13 +233,22 @@ public class QLearningAI extends AI
 			System.out.printf("episode: %d\n", episode);
 			for (int T = 1; T <= 200; T++)
 			{
-				out = epsilon_greedy_move(now); //e-greedy and store the transition
+				//Act e-greedy policy and store the transition
+				//Then set now = next
+				out = epsilon_greedy_move(now); 
 				now = out[0];
 				next = out[1];
+				if ((Board.terminal(next)) || (now == next))
+					now = Board.getInit();
+				else 
+					now = next;
 				
+				
+				//update
 				if (D.size() > 0)
 				{
 					minibatch = sampling(); //sampling minibatch
+					
 					for (int i = 0; i < minibatchSize; i++)
 					{					
 						st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);
@@ -258,11 +267,6 @@ public class QLearningAI extends AI
 					//gradient descent
 					dqn.backward(input, act, y, minibatchSize);
 				}
-				
-				if ((Board.terminal(next)) || (now == next))
-					now = Board.getInit();
-				else 
-					now = next;
 			}			
 		}
 		dqn.store();
