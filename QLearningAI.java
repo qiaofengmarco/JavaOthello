@@ -60,76 +60,102 @@ public class QLearningAI extends AI
 	public int[][] epsilon_greedy_move(int[] now)
 	{
 		int action;
-		int[] next;
+		int[] next, s1;
 		int[][] out = new int[2][64];
-		Random r = new Random();
-		double p = r.nextDouble(), max = -100000, temp, reward = 0;
+		double p = Math.random(), max = -100000, temp, reward = 0, reward_temp = 0, now_value = 0;
 		int[] steps;
 		AlphaBetaAI opponent;
 		Integer[] st = Arrays.stream(now).boxed().toArray(Integer[]::new);
 		Integer a;
 		Double d;
+		boolean flag = false;
 		
+		now_value = evaluate(now);
 		//if AI cannot move now, then jump to next moveable state
 		steps = Board.searchNext(now, hold);
+		s1 = now;
 		while (steps[0] == 0)
 		{
-			opponent = new AlphaBetaAI(now, -hold);
+			opponent = new AlphaBetaAI(s1, -hold);
 			opponent.move();
-			now = opponent.table.getTable();
-			steps = Board.searchNext(now, hold);
+			s1 = opponent.table.getTable();
+			reward_temp += evaluate(s1) - now_value;
+			steps = Board.searchNext(s1, hold);
+			if (Board.terminal(s1)) 
+			{
+				flag = true; //AI is not moveable and the game is finish
+				break;
+			}
+		}
+		if (!flag) //AI can move originally or AI can move afterwards
+		{
+			now = s1;
+			now_value = evaluate(now);
 		}
 		out[0] = now;
+		out[1] = now;
 		st = Arrays.stream(now).boxed().toArray(Integer[]::new);
 		
 		//e-greedy policy
-		action = steps[1];
-		if (p <= epsilon) //do argmax Q(s, a)
+		if (steps[0] > 0) //AI is moveable
 		{
-			for (int i = 1; i <= steps[0]; i++)
+			action = steps[1];
+			if (p <= epsilon) //do argmax Q(s, a)
 			{
-				a = new Integer(steps[i]);
-				if (Q.contains(st, a))
+				for (int i = 1; i <= steps[0]; i++)
 				{
-					temp = Q.get(st, a).doubleValue();
-					if (temp > max)
+					a = new Integer(steps[i]);
+					if (Q.contains(st, a))
 					{
-						max = temp;
-						action = steps[i];
+						temp = Q.get(st, a).doubleValue();
+						if (temp > max)
+						{
+							max = temp;
+							action = steps[i];
+						}
 					}
+					else
+					{
+						temp = dqn.forward(now, steps[i]);
+						d = new Double(temp);
+						Q.put(st, a, d);
+						if (temp > max)
+						{
+							max = temp;
+							action = steps[i];
+						}
+					}				
 				}
-				else
-				{
-					temp = dqn.forward(now, steps[i]);
-					d = new Double(temp);
-					Q.put(st, a, d);
-					if (temp > max)
-					{
-						max = temp;
-						action = steps[i];
-					}
-				}				
 			}
+			else //act randomly
+				action = steps[(int)(Math.random() * steps[0]) + 1];
+			next = Board.nextState(now, action, hold);
+		
+			//opponent move
+			opponent = new AlphaBetaAI(next, -hold);
+			int opmove = opponent.move();
+			if (opmove >= 0) //opponent is moveable
+			{
+				next = opponent.table.getTable();
+				reward = evaluate(next) - now_value;
+			}
+			else //opponent is not moveable
+			{
+				reward = now_value;
+			}
+			out[1] = next;
+			
+			//store transition in memory D
+			Transition tr = new Transition(now, next, action, reward);
+			D.offer(tr);
+			if (D.size() > 32)
+				D.pollFirst();
 		}
-		else //act randomly
-			action = steps[(int)(Math.random() * steps[0]) + 1];
-		next = Board.nextState(now, action, hold);
-		
-		//opponent move
-		opponent = new AlphaBetaAI(next, -hold);
-		int opmove = opponent.move();
-		next = opponent.table.getTable();
-		out[1] = next;
-		if (opmove >= 0)
-			reward = evaluate(now) - evaluate(next);
 		else
-			reward = evaluate(now);
-		
-		//store transition in memory D
-		Transition tr = new Transition(now, next, action, reward);
-		D.offer(tr);
-		if (D.size() > 32)
-			D.pollFirst();
+		{
+			out[1] = now;
+		}
+
 		
 		return out;
 	}
@@ -190,6 +216,7 @@ public class QLearningAI extends AI
 			System.out.printf("episode: %d\n", episode);
 			for (int T = 1; T <= 200; T++)
 			{
+				System.out.printf("T: %d\n", T);
 				out = epsilon_greedy_move(now); //e-greedy and store the transition
 				now = out[0];
 				next = out[1];
@@ -221,7 +248,7 @@ public class QLearningAI extends AI
 				
 				}
 				
-				if (Board.terminal(next))
+				if ((Board.terminal(next)) || (now == next))
 					now = Board.getInit();
 				else 
 					now = next;
