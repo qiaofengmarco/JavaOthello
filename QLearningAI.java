@@ -118,9 +118,12 @@ public class QLearningAI extends AI
 		
 		//opponent move
 		opponent = new AlphaBetaAI(next, -hold);
-		opponent.move();
+		int opmove = opponent.move();
 		next = opponent.table.getTable();
-		reward = evaluate(now) - evaluate(next);
+		if (opmove >= 0)
+			reward = evaluate(now) - evaluate(next);
+		else
+			reward = evaluate(now);
 		
 		//store transition in memory D
 		Transition tr = new Transition(now, next, action, reward);
@@ -176,7 +179,7 @@ public class QLearningAI extends AI
 	{
 		double reward, temp;
 		Double d;
-		double[] y = new double[8], t = new double[8];
+		double[] y = new double[8];
 		int[] now, next;
 		int[][] out = new int[2][];
 		Transition[] minibatch = new Transition[8];
@@ -199,18 +202,7 @@ public class QLearningAI extends AI
 					{						
 						Integer[] st = Arrays.stream(minibatch[i].s1).boxed().toArray(Integer[]::new);				
 						Integer a = new Integer(minibatch[i].action);
-						
-						if (Q.contains(st, a))
-						{
-							t[i] = Q.get(st, a).doubleValue();
-						}
-						else
-						{
-							temp = dqn.forward(minibatch[i].s1, minibatch[i].action);
-							d = new Double(temp);
-							Q.put(st, a, d);
-							t[i] = temp;
-						}
+												
 						// yi = ri                          for terminal s_t+1
 						//    = ri + gamma * max Q(s', a')  for non-terminal s_t+1
 						if (Board.terminal(minibatch[i].s2))
@@ -220,7 +212,11 @@ public class QLearningAI extends AI
 						
 						//gradient descent
 						//only doing backward update will change the weights of dqn
-						dqn.backward(minibatch[i].s1, minibatch[i].action, y[i], t[i]);
+						//update new Q(s, a) at the same time
+						temp = dqn.backward(minibatch[i].s1, minibatch[i].action, y[i]);
+						d = new Double(temp);
+						Q.put(st, a, d);
+
 					}
 				
 				}

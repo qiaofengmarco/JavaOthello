@@ -14,13 +14,12 @@ public class NeuralNetwork
 		vv = new double[4][100];
 		mm = new double[4][100];
 		b = new double[4][];
-		sum = new double[4][];
+		sum = new double[3][];
 		for (int i = 0; i <= 2; i++)
 		{
 			b[i] = new double[100];
 			sum[i] = new double[100];
 		}
-		sum[3] = new double[64];
 		b[3] = new double[64];
 		w = new double[4][][];
 		v = new double[4][][];
@@ -144,36 +143,38 @@ public class NeuralNetwork
 			return 1.0;
 		return 0.3;
 	}
-	public double re(double a)
-	{
-		if (a >= 0)
-			return a;
-		return a / 0.3;
-	}
 	public double forward(int[] x, int action) 
 	//x is a 64 * 1 vector
 	{
 		double ans = 0;
+		
 		for (int j = 0; j < 100; j++)
 		{
 			for (int i = 0; i < 64; i++)
+			{
+				if (i == 0) sum[0][j] = 0; //clear
 				sum[0][j] += x[i] * w[0][i][j];
+			}
 			sum[0][j] = LRelu(sum[0][j] + b[0][j]);
 		}
+		
 		for (int k = 1; k <= 2; k++)
 			for (int j = 0; j < 100; j++)
 			{
 				for (int i = 0; i < 100; i++)
+				{
+					if (i == 0) sum[k][j] = 0; //clear
 					sum[k][j] += sum[k - 1][i] * w[k][i][j];
+				}
 				sum[k][j] = LRelu(sum[k][j] + b[k][j]);
 			}
-		for (int i = 0; i < 64; i++)
-		{
-			for (int j = 0; j < 100; j++)
-				sum[3][i] += sum[2][j] * w[3][j][i];
-			sum[3][i] = Math.tanh(sum[3][i] + b[3][i]);
-		}
-		return sum[3][action];
+			
+		ans = 0;
+		for (int i = 0; i < 100; i++)
+			ans += sum[2][i] * w[3][i][action];
+		ans = Math.tanh(ans + b[3][action]);
+		
+		return ans;
 	}
 	public void adam(int i, int j, int k, double a)
 	{
@@ -187,10 +188,9 @@ public class NeuralNetwork
 		vv[i][j] = 0.999 * vv[i][j] + 0.001 * a * a;
 		b[i][j] -= rate * mm[i][j] / (Math.sqrt(vv[i][j]) + 1e-6);
 	}
-	public void backward(int[] x, int action, double y, double t)
+	public double backward(int[] x, int action, double y)
 	{
-		forward(x, action);
-		
+		double t = forward(x, action);	
 		double[][] error;
 		error = new double[4][];
 		for (int i = 0; i < 3; i++)
@@ -264,5 +264,7 @@ public class NeuralNetwork
 			}
 			adam_b(0, i, error[0][i]);
 		}
+		
+		return t;
 	}
 }

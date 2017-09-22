@@ -81,7 +81,7 @@ public class TrainFrame extends JFrame
 			{
 				ai.table = table;
 				step1 = ai.move();
-				if (step1 > 0)
+				if (step1 >= 0)
 				{
 					table = ai.table;
 					count1 = 0;
@@ -101,7 +101,7 @@ public class TrainFrame extends JFrame
 			{
 				ab.table = table;
 				step1 = ab.move();
-				if (step1 > 0)
+				if (step1 >= 0)
 				{
 					table = ab.table;
 					count1 = 0;
