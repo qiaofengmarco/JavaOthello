@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class TrainFrame extends JFrame
+public class Playground extends JFrame
 {
 	public Chess[][] p;
 	public JPanel big;
@@ -9,7 +9,7 @@ public class TrainFrame extends JFrame
 	private AlphaBetaAI ab;
 	private Board table = new Board();
 	private int now = 1;
-	public TrainFrame()
+	public Playground()
 	{
 		super("Othello");
 		p = new Chess[8][8];

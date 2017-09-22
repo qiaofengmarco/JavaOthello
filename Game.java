@@ -2,7 +2,7 @@ public class Game
 {
 	public static void main(String[] args)
 	{
-		TrainFrame game = new TrainFrame();
+		Playground game = new Playground();
 		//game.setSize(600, 600);
 		//game.setVisible(true);
 		game.play();
