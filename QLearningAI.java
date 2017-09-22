@@ -8,7 +8,7 @@ public class QLearningAI extends AI
 	private NeuralNetwork dqn;
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
-	private double epsilon = 0.85, gamma = 0.5;
+	private double epsilon = 0.85, gamma = 0.9;
 	private int maxSize = 5000, minibatchSize = 0;
 	public QLearningAI(int h)
 	{
@@ -71,8 +71,8 @@ public class QLearningAI extends AI
 		Double d;
 		boolean flag = false;
 		
-		now_value = evaluate(now);
 		//if AI cannot move now, then jump to next moveable state
+		now_value = evaluate(now);
 		steps = Board.searchNext(now, hold);
 		s1 = now;
 		while (steps[0] == 0)
@@ -80,7 +80,6 @@ public class QLearningAI extends AI
 			opponent = new AlphaBetaAI(s1, -hold);
 			opponent.move();
 			s1 = opponent.table.getTable();
-			reward_temp += evaluate(s1) - now_value;
 			steps = Board.searchNext(s1, hold);
 			if (Board.terminal(s1)) 
 			{
@@ -90,6 +89,7 @@ public class QLearningAI extends AI
 		}
 		if (!flag) //AI can move originally or AI can move afterwards
 		{
+			reward_temp = evaluate(s1) - now_value;
 			now = s1;
 			now_value = evaluate(now);
 		}
@@ -138,11 +138,11 @@ public class QLearningAI extends AI
 			if (opmove >= 0) //opponent is moveable
 			{
 				next = opponent.table.getTable();
-				reward = evaluate(next) - now_value;
+				reward = evaluate(next) - now_value + reward_temp;
 			}
 			else //opponent is not moveable
 			{
-				reward = now_value;
+				reward = now_value + reward_temp;
 			}
 			out[1] = next;
 			
