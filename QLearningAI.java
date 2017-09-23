@@ -9,14 +9,10 @@ public class QLearningAI extends AI
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
 	private double epsilon = 0.85, gamma = 0.9;
-	private int maxSize = 500, minibatchSize = 0;
+	private int maxSize = 1000, minibatchSize = 0;
 	public QLearningAI(int h)
 	{
 		super(h);
-		if (h == 1)
-			dqn = new NeuralNetwork("black.txt");
-		else if (h == -1)
-			dqn = new NeuralNetwork("white.txt");
 		for (int i = 1; i <= 64; i++)
 			value[i] = 0;
 		value[1] = 1;
@@ -227,6 +223,11 @@ public class QLearningAI extends AI
 		int[] act = new int[32];
 		Transition[] minibatch = new Transition[32];
 		
+		if (hold == 1)
+			dqn = new NeuralNetwork("black.txt");
+		else if (hold == -1)
+			dqn = new NeuralNetwork("white.txt");
+		
 		for (int episode = 1; episode <= 200; episode++)
 		{
 			now = Board.getInit();
@@ -267,9 +268,10 @@ public class QLearningAI extends AI
 					//gradient descent
 					dqn.backward(input, act, y, minibatchSize);
 				}
-			}			
+			}
+			if ((episode % 50 == 0) && (episode > 0)) 
+				dqn.store();
 		}
-		dqn.store();
 	}
 	@Override
 	public int move()
