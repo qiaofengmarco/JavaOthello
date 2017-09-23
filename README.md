@@ -29,4 +29,10 @@
 3. 修复了之前很多的小bug
 4. 修改了TrainFrame.java的名字 -> Playground.java
 
+## 2017.9.23更新：
+1. 修复了很多AlphaBetaAI的奇怪bug...（Java是浅拷贝？函数传入的是对象的引用？）
+2. 修复了GUI和Playground的判断逻辑bug
+3. 调整了很多预设参数
+4. 下一步：实现一个UTC算法的AI...
+
 **更新于2017.9.22**
