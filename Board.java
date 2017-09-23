@@ -37,6 +37,16 @@ public class Board
 				}
 			}
 	}
+	public Board(Board b)
+	{
+		bigTable = new int[9][9];
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+				bigTable[i][j] = b.bigTable[i][j];
+		hand = b.hand;
+		bhand = b.bhand;
+		whand = b.whand;
+	}
 	public static int[] getInit()
 	{
 		int[] ans = new int[64];
@@ -59,6 +69,14 @@ public class Board
 		Board t = new Board(s1);
 		return t.nextSteps(hold);
 	}
+	public static int calcHand(int[] s)
+	{
+		int total = 0;
+		for (int i = 0; i < 64; i++)
+			if (s[i] != 0)
+				total++;
+		return total;
+	}
 	public int[] getTable()
 	{
 		int[] ans = new int[64];
@@ -66,14 +84,6 @@ public class Board
 			for (int j = 1; j <= 8; j++)
 				ans[(i - 1) * 8 + j - 1] = bigTable[i][j];
 		return ans;
-	}
-	public int getHand(int a)
-	{
-		if (a == 1)
-			return bhand;
-		else if (a == -1) 
-			return whand;
-		return 0;
 	}
 	public void set(int x, int y, int who)
 	{

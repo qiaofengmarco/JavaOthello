@@ -5,7 +5,7 @@ public class Playground extends JFrame
 {
 	public Chess[][] p;
 	public JPanel big;
-	private QLearningAI ai;
+	private AI ai;
 	private AlphaBetaAI ab;
 	private Board table = new Board();
 	private int now = 1;
@@ -44,7 +44,7 @@ public class Playground extends JFrame
 		int kk = (int)(Math.random() * 2);
 		kk = (int)Math.pow(-1, kk);
 		ab = new AlphaBetaAI(kk);
-		ai = new QLearningAI(-kk);
+		ai = new AI(-kk);
 		ai.table = table;
 		ab.table = table;
 		String ss = (kk == 1)?"black":"white";
@@ -56,8 +56,12 @@ public class Playground extends JFrame
 	public void checkWinner()
 	{
 		int b = 0, a = 0;
-		b = table.getHand(ab.hold);
-		a = table.getHand(ai.hold);
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+				if (table.bigTable[i][j] == ai.hold)
+					a++;
+				else if (table.bigTable[i][j] == ab.hold)
+					b++;
 		if (b > a)
 			System.out.println("AlphaBetaAI wins!");
 		else if (a > b)
@@ -79,11 +83,12 @@ public class Playground extends JFrame
 			catch (Exception e){}	
 			if (now == ai.hold)
 			{
-				ai.table = table;
+				ai.table = new Board(table);
 				step1 = ai.move();
+				//System.out.printf("ai: %d\n", step1);
 				if (step1 >= 0)
 				{
-					table = ai.table;
+					table = new Board(ai.table);
 					count1 = 0;
 				}
 				else
@@ -99,11 +104,12 @@ public class Playground extends JFrame
 			}
 			else if (now == ab.hold)
 			{
-				ab.table = table;
+				ab.table = new Board(table);
 				step1 = ab.move();
+				//System.out.printf("ab: %d\n", step1);
 				if (step1 >= 0)
 				{
-					table = ab.table;
+					table = new Board(ab.table);
 					count1 = 0;
 				}
 				else

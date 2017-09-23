@@ -5,6 +5,7 @@ public class AI
 	public AI(int h)
 	{
 		hold = h;
+		table = new Board();
 	}
 	public AI(int[] x, int h)
 	{

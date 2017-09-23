@@ -1,27 +1,27 @@
 public class AlphaBetaAI extends AI
 {
-	private int[] value = new int[65];
+	private double[] value = new double[65];
 	public AlphaBetaAI(int h)
 	{
 		super(h);
 		for (int i = 1; i <= 64; i++)
 			value[i] = 0;
-		value[1] = 100;
-		value[8] = 100;
-		value[57] = 100;
-		value[64] = 100;
-		value[2] = -25;
-		value[7] = -25;
-		value[9] = -25;
-		value[10] = -25;
-		value[15] = -25;
-		value[16] = -25;
-		value[49] = -25;
-		value[50] = -25;
-		value[58] = -25;
-		value[55] = -25;
-		value[56] = -25;
-		value[63] = -25;
+		value[1] = 500;
+		value[8] = 500;
+		value[57] = 500;
+		value[64] = 500;
+		value[2] = -10;
+		value[7] = -10;
+		value[9] = -10;
+		value[10] = -10;
+		value[15] = -10;
+		value[16] = -10;
+		value[49] = -10;
+		value[50] = -10;
+		value[58] = -10;
+		value[55] = -10;
+		value[56] = -10;
+		value[63] = -10;
 	}
 	public AlphaBetaAI(int x[], int h)
 	{
@@ -39,22 +39,23 @@ public class AlphaBetaAI extends AI
 			return a;
 		return b;
 	}
-	private double AlphaBeta(int s, Board pt, int depth, double a, double b, int h)
+	private double AlphaBeta(int s, int[] pt, int depth, double a, double b, int h)
 	{
 		int[] moves = new int[65];
-		pt.set(s / 8 + 1, s % 8 + 1, h);
-		moves = pt.nextSteps(h);
+		pt = Board.nextState(pt, s, h);
+		moves = Board.searchNext(pt, h);
 		if ((depth == 0) || (moves[0] == 0))
 		{
 			double sum = 0;
-			for (int i = 1; i <= 8; i++)
-				for (int j = 1; j <= 8; j++)
-				{
-					if (pt.bigTable[i][j] == hold)
-						sum += value[(i - 1) * 8 + j - 1] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
-					else if (table.bigTable[i][j] == -hold)
-						sum -= value[(i - 1) * 8 + j - 1] * (32.0 / (double)(pt.hand)) + 32.0 / (double)(65.0 - pt.hand);
-				}
+			int hands = Board.calcHand(pt);
+			for (int i = 0; i < 64; i++)
+			{
+				if (pt[i] == hold)
+					sum += value[i] + 32 / (double)(65.0 - hands);
+				else if (pt[i] == -hold)
+					sum -= value[i] + 32 / (double)(65.0 - hands);
+			}
+			if (Board.terminal(pt)) sum *= 100;
 			return sum;
 		}
 		if (h == hold)
@@ -85,6 +86,9 @@ public class AlphaBetaAI extends AI
 		int[] steps = new int[65];
 		int step = 1;
 		double max = -100000, temp;
+		int[] s = new int[64];
+		int depth = 3;
+		int hands = Board.calcHand(table.getTable());
 		steps = table.nextSteps(hold);
 		if (steps[0] > 0)
 		{
@@ -92,9 +96,18 @@ public class AlphaBetaAI extends AI
 				step = steps[1];
 			else
 			{
+				for (int i = 1; i <= 8; i++)
+					for (int j = 1; j <= 8; j++)
+						s[(i - 1) * 8 + j - 1] = table.bigTable[i][j];
 				for (int i = 1; i <= steps[0]; i++)
 				{
-					temp = AlphaBeta(steps[i], table, 4, -100000, 100000, hold);
+					if (hands <= 10)
+						depth = 5;
+					else if (hands <= 58)
+						depth = 4;
+					else
+						depth = 3;
+					temp = AlphaBeta(steps[i], s, depth, -100000, 100000, hold);
 					if (temp > max)
 					{
 						max = temp;
@@ -102,7 +115,7 @@ public class AlphaBetaAI extends AI
 					}
 				}
 			}
-			table.set(step / 8 + 1, step % 8 + 1, hold);			
+			table.set(step / 8 + 1, step % 8 + 1, hold);	
 			return step;
 		}
 		return -1;

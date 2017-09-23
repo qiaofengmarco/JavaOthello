@@ -8,7 +8,7 @@ public class QLearningAI extends AI
 	private NeuralNetwork dqn;
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
-	private double epsilon = 0.85, gamma = 0.85;
+	private double epsilon = 0.7, gamma = 0.85;
 	private int maxSize = 1000, minibatchSize = 0;
 	public QLearningAI(int h)
 	{
@@ -52,7 +52,7 @@ public class QLearningAI extends AI
 			else if (x[i] == -hold)
 				sum -= (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
 		}
-		return Math.tanh(sum);
+		return sum;
 	}
 	public int[][] epsilon_greedy_move(int[] now)
 	{
@@ -281,6 +281,7 @@ public class QLearningAI extends AI
 		double max = -100000, temp;
 		Integer a;
 		Double d;
+		double p = Math.random();
 		int[] now = table.getTable();
 		Integer[] st = Arrays.stream(now).boxed().toArray(Integer[]::new);
 		steps = table.nextSteps(hold);
@@ -290,29 +291,34 @@ public class QLearningAI extends AI
 				step = steps[1];
 			else
 			{
-				for (int i = 1; i <= steps[0]; i++)
+				if (p > epsilon)
+					step = steps[(int)(Math.random()*steps[0]) + 1];
+				else
 				{
-					a = new Integer(steps[i]);
-					if (Q.contains(st, a))
+					for (int i = 1; i <= steps[0]; i++)
 					{
-						temp = Q.get(st, a).doubleValue();
-						if (temp > max)
+						a = new Integer(steps[i]);
+						if (Q.contains(st, a))
 						{
-							max = temp;
-							step = steps[i];
-						}
-						else
-						{
-							temp = dqn.forward(now, steps[i]);
-							d = new Double(temp);
-							Q.put(st, a, d);
+							temp = Q.get(st, a).doubleValue();
 							if (temp > max)
 							{
 								max = temp;
 								step = steps[i];
 							}
-						}
-					}			
+							else
+							{
+								temp = dqn.forward(now, steps[i]);
+								d = new Double(temp);
+								Q.put(st, a, d);
+								if (temp > max)
+								{
+									max = temp;
+									step = steps[i];
+								}
+							}
+						}			
+					}
 				}
 			}
 			table.set(step / 8 + 1, step % 8 + 1, hold);			
@@ -324,11 +330,12 @@ public class QLearningAI extends AI
 	{
 		int kk = (int)(Math.random() * 2);
 		kk = (int)Math.pow(-1, kk);
-		if (kk == 1)
+		/*if (kk == 1)
 			System.out.println("Training black...");
 		else
-			System.out.println("Training white...");
-		QLearningAI ai = new QLearningAI(kk);
+			System.out.println("Training white...");*/
+		System.out.println("Training black...");
+		QLearningAI ai = new QLearningAI(1);
 		ai.qLearning();
 		System.out.println("Finish");
 	}

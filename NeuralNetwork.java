@@ -187,8 +187,8 @@ public class NeuralNetwork
 		ans = 0;
 		for (int i = 0; i < 100; i++)
 			ans += sum[2][i] * w[3][i][action];
-		ans = Math.tanh(ans + b[3][action]);
-		
+		//previous: ans = Math.tanh(ans + b[3][action]);
+		ans += b[3][action];
 		return ans;
 	}
 	public void backward(int[][] x, int[] action, double[] y, int minibatchSize)
@@ -203,7 +203,8 @@ public class NeuralNetwork
 			//[output -> (n-1) hidden]	
 			//dE / dnet_j = df * (y - t)
 			//dE /dw_i,j = dE / dnet_j * x_i,j		
-			error[3][0] = (1 - Math.pow(y[kk], 2.0)) * (y[kk] - t);			
+			//previous: error[3][0] = (1 - Math.pow(y[kk], 2.0)) * (y[kk] - t);		
+			error[3][0] = y[kk] - t;
 			for (int i = 0; i < 100; i++)
 			{
 				//update w_3,i,action and b_3,action 

@@ -6,7 +6,7 @@ public class GUI extends JFrame implements MouseListener
 	public Chess[][] p;
 	public JPanel big;
 	private Player player;
-	private AI ai;
+	private AlphaBetaAI ai;
 	private Board table = new Board();
 	private int now = 1;
 	private boolean lock = true, done = false;
@@ -59,7 +59,7 @@ public class GUI extends JFrame implements MouseListener
 		}
 		catch (Exception e){}		
 		player = new Player(frame.phold);
-		ai = new AI(frame.ahold);
+		ai = new AlphaBetaAI(frame.ahold);
 		ai.table = table;
 		//System.out.printf("%d, %d", player.hold, ai.hold);
 		big.repaint();
@@ -85,7 +85,7 @@ public class GUI extends JFrame implements MouseListener
 				if (table.checkStep(y1, x1, player.hold))
 				{
 					table.set(y1, x1, player.hold);
-					ai.table = table;
+					ai.table = new Board(table);
 					now = ai.hold;
 					lock = true;
 					done = true;
@@ -101,8 +101,12 @@ public class GUI extends JFrame implements MouseListener
 	public void checkWinner()
 	{
 		int p = 0, a = 0;
-		p = table.getHand(player.hold);
-		a = table.getHand(ai.hold);
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+				if (table.bigTable[i][j] == ai.hold)
+					a++;
+				else if (table.bigTable[i][j] == player.hold)
+					p++;
 		if (p > a)
 			System.out.println("Congratulation! You win!");
 		else if (a > p)
@@ -121,12 +125,11 @@ public class GUI extends JFrame implements MouseListener
 			
 			if (now == ai.hold)
 			{
-				//System.out.println("aaa");
-				ai.table = table;
+				ai.table = new Board(table);
 				step1 = ai.move();
-				if (step1 > 0)
+				if (step1 >= 0)
 				{
-					table = ai.table;
+					table = new Board(ai.table);
 					count1 = 0;
 				}
 				else
@@ -137,7 +140,6 @@ public class GUI extends JFrame implements MouseListener
 						break;
 					}
 					count1++;
-					//System.out.println();
 				}
 				now = player.hold;
 			}
@@ -152,7 +154,6 @@ public class GUI extends JFrame implements MouseListener
 				else if (moves[0] == 0)
 				{
 					count1++;
-					now = ai.hold;
 				}
 				else
 				{
@@ -168,6 +169,7 @@ public class GUI extends JFrame implements MouseListener
 					}
 					count1 = 0;
 				}
+				now = ai.hold;
 			}
 		}
 	}
