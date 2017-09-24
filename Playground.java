@@ -5,7 +5,7 @@ public class Playground extends JFrame
 {
 	public Chess[][] p;
 	public JPanel big;
-	private AI ai;
+	private UTCAI ai;
 	private AlphaBetaAI ab;
 	private Board table = new Board();
 	private int now = 1;
@@ -44,11 +44,13 @@ public class Playground extends JFrame
 		int kk = (int)(Math.random() * 2);
 		kk = (int)Math.pow(-1, kk);
 		ab = new AlphaBetaAI(kk);
-		ai = new AI(-kk);
+		ai = new UTCAI(-kk);
 		ai.table = table;
 		ab.table = table;
-		String ss = (kk == 1)?"black":"white";
-		System.out.printf("AlphaBetaAI is %s\n", ss);
+		String ss1 = (kk == 1)?"black":"white";
+		String ss2 = (kk == 1)?"white":"black";
+		System.out.printf("AlphaBetaAI is %s\n", ss1);
+		System.out.printf("UTC AI is %s\n", ss2);
 		big.repaint();
 		big.setFocusable(true);
 		setVisible(true);
@@ -65,7 +67,7 @@ public class Playground extends JFrame
 		if (b > a)
 			System.out.println("AlphaBetaAI wins!");
 		else if (a > b)
-			System.out.println("Simple AI wins!");
+			System.out.println("UTC AI wins!");
 		else 
 			System.out.println("Draw!");
 	}
@@ -85,7 +87,7 @@ public class Playground extends JFrame
 			{
 				ai.table = new Board(table);
 				step1 = ai.move();
-				//System.out.printf("ai: %d\n", step1);
+				System.out.printf("ai: %d\n", step1);
 				if (step1 >= 0)
 				{
 					table = new Board(ai.table);
@@ -106,7 +108,7 @@ public class Playground extends JFrame
 			{
 				ab.table = new Board(table);
 				step1 = ab.move();
-				//System.out.printf("ab: %d\n", step1);
+				System.out.printf("ab: %d\n", step1);
 				if (step1 >= 0)
 				{
 					table = new Board(ab.table);

@@ -77,6 +77,21 @@ public class Board
 				total++;
 		return total;
 	}
+	public static int getWinner(int[] s)
+	{
+		int ans = -1;
+		int a = 0, b = 0;
+		for (int i = 0; i < 64; i++)
+			if (s[i] == 1)
+				a++;
+			else if (s[i] == -1)
+				b++;
+		if (a > b)
+			return 1;
+		else if (a < b)
+			return -1;
+		return 0;
+	}
 	public int[] getTable()
 	{
 		int[] ans = new int[64];
