@@ -33,6 +33,12 @@
 1. 修复了很多AlphaBetaAI的奇怪bug...（Java是浅拷贝？函数传入的是对象的引用？）
 2. 修复了GUI和Playground的判断逻辑bug
 3. 调整了很多预设参数
-4. 下一步：实现一个UTC算法的AI... 参考：http://blog.csdn.net/Dinosoft/article/details/50893291 http://www.jianshu.com/p/d011baff6b64
 
-**更新于2017.9.23**
+## 2017.9.24更新：
+1. 初步完成基于UTC算法的AI
+   参考：http://blog.csdn.net/Dinosoft/article/details/50893291 http://www.jianshu.com/p/d011baff6b64
+2. 调整了AlphaBetaAI的某些参数
+3. 修正Board.java的bug并加入了新的辅助函数
+4. 下一步：重新完善QLearningAI...？完善游戏UI...？还是就先放一放...？
+
+**更新于2017.9.24**
