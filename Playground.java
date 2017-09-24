@@ -5,7 +5,7 @@ public class Playground extends JFrame
 {
 	public Chess[][] p;
 	public JPanel big;
-	private UTCAI ai;
+	private UCTAI ai;
 	private AlphaBetaAI ab;
 	private Board table = new Board();
 	private int now = 1;
@@ -44,13 +44,13 @@ public class Playground extends JFrame
 		int kk = (int)(Math.random() * 2);
 		kk = (int)Math.pow(-1, kk);
 		ab = new AlphaBetaAI(kk);
-		ai = new UTCAI(-kk);
+		ai = new UCTAI(-kk);
 		ai.table = table;
 		ab.table = table;
 		String ss1 = (kk == 1)?"black":"white";
 		String ss2 = (kk == 1)?"white":"black";
 		System.out.printf("AlphaBetaAI is %s\n", ss1);
-		System.out.printf("UTC AI is %s\n", ss2);
+		System.out.printf("UCT AI is %s\n", ss2);
 		big.repaint();
 		big.setFocusable(true);
 		setVisible(true);

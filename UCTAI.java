@@ -1,17 +1,17 @@
 import java.util.*;
-public class UTCAI extends AI
+public class UCTAI extends AI
 {
-	private Map<UTCTreeNode, Double> Q = new HashMap<UTCTreeNode, Double>();
-	private Map<UTCTreeNode, Integer> N = new HashMap<UTCTreeNode, Integer>();
-	public UTCAI(int h)
+	private Map<UCTTreeNode, Double> Q = new HashMap<UCTTreeNode, Double>();
+	private Map<UCTTreeNode, Integer> N = new HashMap<UCTTreeNode, Integer>();
+	public UCTAI(int h)
 	{
 		super(h);
 	}
-	public UTCAI(int x[], int h)
+	public UCTAI(int x[], int h)
 	{
 		super(x, h);
 	}
-	private UTCTreeNode TreePolicy(UTCTreeNode v)
+	private UCTTreeNode TreePolicy(UCTTreeNode v)
 	{
 		while (!Board.terminal(v.data))
 		{
@@ -24,7 +24,7 @@ public class UTCAI extends AI
 		}
 		return v;
 	}
-	private UTCTreeNode Expand(UTCTreeNode v)
+	private UCTTreeNode Expand(UCTTreeNode v)
 	{
 		if (v.next[0] == 0) return v;
 		v.expand++;
@@ -32,11 +32,11 @@ public class UTCAI extends AI
 		int[] next = Board.nextState(v.data, action, hold);
 		return v.addChild(next);
 	}
-	private UTCTreeNode BestChild(UTCTreeNode v, double c)
+	private UCTTreeNode BestChild(UCTTreeNode v, double c)
 	{
 		double max = -2147483647, temp = 0, qv, nv, nvthis;
-		UTCTreeNode[] anstemp = new UTCTreeNode[v.children.size()];
-		UTCTreeNode ans = null;
+		UCTTreeNode[] anstemp = new UCTTreeNode[v.children.size()];
+		UCTTreeNode ans = null;
 		int count = 0;
 		if ((v.isLeaf()) || (v.next[0] == 0)) return null;
 		if (v.next[0] == 1) return v.children.get(0);
@@ -65,7 +65,7 @@ public class UTCAI extends AI
 			ans = anstemp[(int)(Math.random() * count)];
 		return ans;
 	}
-	private int BestChildAction(UTCTreeNode v, double c)
+	private int BestChildAction(UCTTreeNode v, double c)
 	{
 		double max = -2147483647, temp = 0, qv, nv, nvthis;
 		int[] anstemp = new int[64];
@@ -127,7 +127,7 @@ public class UTCAI extends AI
 		}
 		return 100 * Board.getWinner(s) * hold;			
 	}
-	private void BackupNegaMax(UTCTreeNode v, double delta)
+	private void BackupNegaMax(UCTTreeNode v, double delta)
 	{
 		while (v != null)
 		{
@@ -143,10 +143,10 @@ public class UTCAI extends AI
 			v = v.parent;
 		}
 	}
-	private int UTCSearch(int[] s)
+	private int UCTSearch(int[] s)
 	{
-		UTCTreeNode v = new UTCTreeNode(s, hold);
-		UTCTreeNode v1;
+		UCTTreeNode v = new UCTTreeNode(s, hold);
+		UCTTreeNode v1;
 		double delta;
 		if (v.next[0] == 0) return -1;
 		while (v.expand < v.next[0])
@@ -173,7 +173,7 @@ public class UTCAI extends AI
 			if (steps[0] == 1)
 				step = steps[1];
 			else
-				step = UTCSearch(table.getTable());
+				step = UCTSearch(table.getTable());
 			table.set(step / 8 + 1, step % 8 + 1, hold);			
 			return step;
 		}

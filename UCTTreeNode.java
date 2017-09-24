@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-public class UTCTreeNode{
-    public ArrayList<UTCTreeNode> children = new ArrayList<UTCTreeNode>();
-    public UTCTreeNode parent = null;
+public class UCTTreeNode{
+    public ArrayList<UCTTreeNode> children = new ArrayList<UCTTreeNode>();
+    public UCTTreeNode parent = null;
     public int[] data = new int[64];
 	public int expand = 0;
 	public int[] next = new int[65];
 	public int hold;
 	
-    public UTCTreeNode(int[] data, int h) {
+    public UCTTreeNode(int[] data, int h) {
 		for (int i = 0; i < 64; i++)
 			this.data[i] = data[i];
 		next = Board.searchNext(this.data, h);
@@ -22,7 +22,7 @@ public class UTCTreeNode{
 			return true;
 		if (getClass() != o.getClass())
 			return false;
-		UTCTreeNode a = (UTCTreeNode) o;
+		UCTTreeNode a = (UCTTreeNode) o;
 		if (children == a.children)
 			return true;
 		if ((children == a.children) && (parent == a.parent) && (data == a.data) && (hold == a.hold))
@@ -34,19 +34,15 @@ public class UTCTreeNode{
 		return data.hashCode();
 	}
 	
-    public ArrayList<UTCTreeNode> getChildren() {
-        return children;
-    }
-	
-    public void setParent(UTCTreeNode parent) {
+    public void setParent(UCTTreeNode parent) {
         this.parent = parent;
     }
-    public void addChild(UTCTreeNode child) {
+    public void addChild(UCTTreeNode child) {
         child.setParent(this);
         this.children.add(child);
     }
-    public UTCTreeNode addChild(int[] data) {
-        UTCTreeNode child = new UTCTreeNode(data, hold);
+    public UCTTreeNode addChild(int[] data) {
+        UCTTreeNode child = new UCTTreeNode(data, hold);
         child.setParent(this);
         this.children.add(child);
 		return child;
