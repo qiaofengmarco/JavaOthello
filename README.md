@@ -25,8 +25,8 @@
 ## 2017.9.22更新：
  1. 
  - 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
- - 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解
- - > 参考：http://blog.csdn.net/u014595019/article/details/52989301
+ - 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解，参考：
+ > http://blog.csdn.net/u014595019/article/details/52989301
  2. 
  - 调试完成了QLearningAI，对特殊情况进行了重写
  - 在重写backward函数的同时更正了之前对minibatch的错误更新方法
