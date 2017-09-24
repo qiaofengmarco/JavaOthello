@@ -9,12 +9,14 @@
  -    参考：http://www.cnblogs.com/pangxiaodong/archive/2011/05/26/2058864.html
 
 ## 2017.9.19更新:
- - 1. 新增NeuralNetwork。
- -    参考：
- -    http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
- -    https://www.zybuluo.com/hanbingtao/note/476663
- -    http://shuokay.com/2016/06/11/optimization/
- - 2. 新增IOHandler
+ > 1. 新增NeuralNetwork。
+ > 
+ >>参考：
+ >>http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
+ >>https://www.zybuluo.com/hanbingtao/note/476663
+ >>http://shuokay.com/2016/06/11/optimization/
+ > 
+ > 2. 新增IOHandler
 
 ## 2017.9.21更新：
  - 1. 修复了之前NeuralNetwork不严谨的地方，重写了backward函数
