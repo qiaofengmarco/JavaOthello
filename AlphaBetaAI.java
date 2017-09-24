@@ -10,18 +10,18 @@ public class AlphaBetaAI extends AI
 		value[8] = 100;
 		value[57] = 100;
 		value[64] = 100;
-		value[2] = -1;
-		value[7] = -1;
-		value[9] = -1;
-		value[10] = -1;
-		value[15] = -1;
-		value[16] = -1;
-		value[49] = -1;
-		value[50] = -1;
-		value[58] = -1;
-		value[55] = -1;
-		value[56] = -1;
-		value[63] = -1;
+		value[2] = -2;
+		value[7] = -2;
+		value[9] = -2;
+		value[10] = -2;
+		value[15] = -2;
+		value[16] = -2;
+		value[49] = -2;
+		value[50] = -2;
+		value[58] = -2;
+		value[55] = -2;
+		value[56] = -2;
+		value[63] = -2;
 	}
 	public AlphaBetaAI(int x[], int h)
 	{
@@ -51,9 +51,9 @@ public class AlphaBetaAI extends AI
 			for (int i = 0; i < 64; i++)
 			{
 				if (pt[i] == hold)
-					sum += value[i] + Math.pow(1.2, Math.max(35, hands) - 35) * 0.09;
+					sum += value[i] + Math.pow(1.2, Math.max(35, hands) - 34) * 0.09;
 				else if (pt[i] == -hold)
-					sum -= value[i] + Math.pow(1.2, Math.max(35, hands) - 35) * 0.09;
+					sum -= value[i] + Math.pow(1.2, Math.max(35, hands) - 34) * 0.09;
 			}
 			if (Board.terminal(pt)) sum *= 50;
 			return sum;
