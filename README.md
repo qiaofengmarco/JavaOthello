@@ -6,13 +6,13 @@
 ## 2017.9.14更新：
 <br>1. 新增TrainFrame<br/>
 <br>2. 新增alpha-beta剪枝优化的Min-max AI，参考：<br/>
-<br>http://www.cnblogs.com/pangxiaodong/archive/2011/05/26/2058864.html<br/>
+<br><space><space><space>http://www.cnblogs.com/pangxiaodong/archive/2011/05/26/2058864.html<br/>
 
 ## 2017.9.19更新:
 <br>1. 新增NeuralNetwork，参考：<br/>
-   <br>http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/<br/>
-   <br>https://www.zybuluo.com/hanbingtao/note/476663 <br/>
-   <br>http://shuokay.com/2016/06/11/optimization/ <br/>
+   <br><space><space><space>http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/<br/>
+   <br><space><space><space>https://www.zybuluo.com/hanbingtao/note/476663 <br/>
+   <br><space><space><space>http://shuokay.com/2016/06/11/optimization/ <br/>
 <br>2. 新增IOHandler
 
 ## 2017.9.21更新：
@@ -22,10 +22,10 @@
 
 ## 2017.9.22更新：
 <br>1. (a) 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验<br/>
-   <br>(b) 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解<br/>
-   <br>参考：http://blog.csdn.net/u014595019/article/details/52989301<br/>
+   <br><space><space><space>(b) 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解<br/>
+   <br><space><space><space><space><space><space>参考：http://blog.csdn.net/u014595019/article/details/52989301<br/>
 <br>2. (a) 调试完成了QLearningAI，对特殊情况进行了重写<br/>
-   <br>(b) 在重写backward函数的同时更正了之前对minibatch的错误更新方法<br/>
+   <br><space><space><space>(b) 在重写backward函数的同时更正了之前对minibatch的错误更新方法<br/>
 <br>3. 修复了之前很多的小bug<br/>
 <br>4. 修改了TrainFrame.java的名字 -> Playground.java<br/>
 
@@ -36,10 +36,10 @@
 
 ## 2017.9.24更新：
 <br>1. 初步完成基于UCT算法的AI<br/>
-   <br>参考：<br/>
-   <br>http://blog.csdn.net/Dinosoft/article/details/50893291<br/>
-   <br>http://www.jianshu.com/p/d011baff6b64<br/>
-   <br>http://mcts.ai/pubs/mcts-survey-master.pdf<br/>
+   <br><space><space><space>参考：<br/>
+   <br><space><space><space>http://blog.csdn.net/Dinosoft/article/details/50893291<br/>
+   <br><space><space><space>http://www.jianshu.com/p/d011baff6b64<br/>
+   <br><space><space><space>http://mcts.ai/pubs/mcts-survey-master.pdf<br/>
 <br>2. 调整了AlphaBetaAI的某些参数<br/>
 <br>3. 修正Board.java的bug并加入了新的辅助函数<br/>
 <br>4. 下一步：重新完善QLearningAI...？完善游戏UI...？还是就先放一放...？<br/>
