@@ -51,9 +51,9 @@ public class AlphaBetaAI extends AI
 			for (int i = 0; i < 64; i++)
 			{
 				if (pt[i] == hold)
-					sum += value[i] + Math.pow(1.5, Math.max(35, hands) - 35) * 0.09;
+					sum += value[i] + Math.pow(1.2, Math.max(35, hands) - 35) * 0.09;
 				else if (pt[i] == -hold)
-					sum -= value[i] + Math.pow(1.5, Math.max(35, hands) - 35) * 0.09;
+					sum -= value[i] + Math.pow(1.2, Math.max(35, hands) - 35) * 0.09;
 			}
 			if (Board.terminal(pt)) sum *= 50;
 			return sum;
@@ -85,7 +85,7 @@ public class AlphaBetaAI extends AI
 	{
 		int[] steps = new int[65];
 		int step = 1;
-		double max = -10000000, temp;
+		double max = -2147483647, temp;
 		int[] s = new int[64];
 		int depth = 4;
 		int hands = Board.calcHand(table.getTable());
@@ -102,7 +102,7 @@ public class AlphaBetaAI extends AI
 						s[(i - 1) * 8 + j - 1] = table.bigTable[i][j];
 				for (int i = 1; i <= steps[0]; i++)
 				{
-					temp = AlphaBeta(steps[i], s, depth, -10000000, 10000000, hold);
+					temp = AlphaBeta(steps[i], s, depth, -2147483647, 2147483647, hold);
 					if (temp > max)
 					{
 						max = temp;
