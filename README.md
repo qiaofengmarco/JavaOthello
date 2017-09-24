@@ -12,7 +12,9 @@
  1. 新增NeuralNetwork，参考：
  >
  > http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
+ >
  > https://www.zybuluo.com/hanbingtao/note/476663
+ >
  > http://shuokay.com/2016/06/11/optimization/ 
  >
  2. 新增IOHandler
@@ -42,7 +44,9 @@
  1. 初步完成基于UCT算法的AI，参考：
  >
  > http://blog.csdn.net/Dinosoft/article/details/50893291
+ >
  > http://www.jianshu.com/p/d011baff6b64
+ >
  > http://mcts.ai/pubs/mcts-survey-master.pdf
  >
  2. 调整了AlphaBetaAI的某些参数
