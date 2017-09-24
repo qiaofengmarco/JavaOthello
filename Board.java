@@ -179,7 +179,7 @@ public class Board
 	public static boolean terminal(int[] s)
 	{
 		Board b = new Board(s);
-		if (b.hand == 64) return true;
+		if (Board.calcHand(s) == 64) return true;
 		int[] a1, b1;
 		a1 = b.nextSteps(1);
 		if (a1[0] > 0) return false;

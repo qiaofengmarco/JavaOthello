@@ -87,7 +87,7 @@ public class Playground extends JFrame
 			{
 				ai.table = new Board(table);
 				step1 = ai.move();
-				System.out.printf("ai: %d\n", step1);
+				//System.out.printf("ai: %d\n", step1);
 				if (step1 >= 0)
 				{
 					table = new Board(ai.table);
@@ -108,7 +108,7 @@ public class Playground extends JFrame
 			{
 				ab.table = new Board(table);
 				step1 = ab.move();
-				System.out.printf("ab: %d\n", step1);
+				//System.out.printf("ab: %d\n", step1);
 				if (step1 >= 0)
 				{
 					table = new Board(ab.table);

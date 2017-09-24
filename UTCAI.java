@@ -16,7 +16,7 @@ public class UTCAI extends AI
 		while (!Board.terminal(v.data))
 		{
 			if (v.next[0] == -1)
-				return v;
+				return null;
 			if (v.expand < v.next[0])
 				return Expand(v);
 			else
@@ -38,7 +38,7 @@ public class UTCAI extends AI
 		UTCTreeNode[] anstemp = new UTCTreeNode[v.children.size()];
 		UTCTreeNode ans = null;
 		int count = 0;
-		if (v.isLeaf()) return v;
+		if ((v.isLeaf()) || (v.next[0] == 0)) return null;
 		if (v.next[0] == 1) return v.children.get(0);
 		ans = v.children.get(0);
 		nvthis = N.get(v).doubleValue();
@@ -71,7 +71,7 @@ public class UTCAI extends AI
 		int[] anstemp = new int[64];
 		int ans;
 		int count = 0;
-		if (v.isLeaf()) return -1;
+		if ((v.isLeaf()) || (v.next[0] == 0)) return -1;
 		if (v.next[0] == 1) return v.next[1];
 		ans = v.next[1];
 		nvthis = N.get(v).doubleValue();
@@ -148,12 +148,18 @@ public class UTCAI extends AI
 		UTCTreeNode v = new UTCTreeNode(s, hold);
 		UTCTreeNode v1;
 		double delta;
+		if (v.next[0] == 0) return -1;
 		while (v.expand < v.next[0])
 		{
 			v1 = TreePolicy(v);
+			if (v1 == null) break;
+			//System.out.printf("%d %d\n", v.expand, v.next[0]);
+			//System.out.println("aaa");
 			delta = DefaultPolicy(v1.data);
+			//System.out.println("bbb");
 			BackupNegaMax(v1, delta);
 		}
+		//System.out.println("ccc");
 		return BestChildAction(v, 0);
 	}
 	@Override
