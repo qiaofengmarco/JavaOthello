@@ -52,18 +52,6 @@ public class UTCTreeNode{
 		return child;
     }
 
-    public int[] getData() {
-		int[] ans = new int[64];
-		for (int i = 0; i < 64; i++)
-			ans[i] = this.data[i];
-        return ans;
-    }
-
-    public void setData(int[] data) {
-		for (int i = 0; i < 64; i++)
-			this.data[i] = data[i];
-    }
-
     public boolean isRoot() {
         return (this.parent == null);
     }
