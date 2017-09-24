@@ -4,9 +4,9 @@
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d2.png)
 
 ## 2017.9.14更新：
-   *1. 新增TrainFrame 
-   *2. 新增alpha-beta剪枝优化的Min-max AI，参考：
-       http://www.cnblogs.com/pangxiaodong/archive/2011/05/26/2058864.html
+ 1. 新增TrainFrame 
+ 2. 新增alpha-beta剪枝优化的Min-max AI。
+    - 参考：http://www.cnblogs.com/pangxiaodong/archive/2011/05/26/2058864.html
 
 ## 2017.9.19更新:
 <br>1. 新增NeuralNetwork，参考：<br/>
