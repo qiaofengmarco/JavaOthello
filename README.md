@@ -24,12 +24,12 @@
 
 ## 2017.9.22更新：
  1. 
- - (a) 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
- - (b) 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解
- > 参考：http://blog.csdn.net/u014595019/article/details/52989301
+ - 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
+ - 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解
+ - > 参考：http://blog.csdn.net/u014595019/article/details/52989301
  2. 
- - (a) 调试完成了QLearningAI，对特殊情况进行了重写
- - (b) 在重写backward函数的同时更正了之前对minibatch的错误更新方法
+ - 调试完成了QLearningAI，对特殊情况进行了重写
+ - 在重写backward函数的同时更正了之前对minibatch的错误更新方法
  3. 修复了之前很多的小bug
  4. 修改了TrainFrame.java的名字 -> Playground.java
 
