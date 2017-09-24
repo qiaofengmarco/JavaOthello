@@ -10,9 +10,11 @@
 
 ## 2017.9.19更新:
  1. 新增NeuralNetwork，参考：
+ >
  > http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
  > https://www.zybuluo.com/hanbingtao/note/476663
  > http://shuokay.com/2016/06/11/optimization/ 
+ >
  2. 新增IOHandler
 
 ## 2017.9.21更新：
@@ -24,9 +26,7 @@
  1. 
  - (a) 再度修复之前NeuralNetwork不严谨的地方，加上了注释方便之后查验
  - (b) 经检查后重写了backward函数，更正了之前对minibatch-sgd的错误理解
- >
- >> 参考：http://blog.csdn.net/u014595019/article/details/52989301
- >
+ > 参考：http://blog.csdn.net/u014595019/article/details/52989301
  2. 
  - (a) 调试完成了QLearningAI，对特殊情况进行了重写
  - (b) 在重写backward函数的同时更正了之前对minibatch的错误更新方法
@@ -40,9 +40,11 @@
 
 ## 2017.9.24更新：
  1. 初步完成基于UCT算法的AI，参考：
+ >
  > http://blog.csdn.net/Dinosoft/article/details/50893291
  > http://www.jianshu.com/p/d011baff6b64
  > http://mcts.ai/pubs/mcts-survey-master.pdf
+ >
  2. 调整了AlphaBetaAI的某些参数
  3. 修正Board.java的bug并加入了新的辅助函数
  4. 下一步：重新完善QLearningAI...？完善游戏UI...？还是就先放一放...？
