@@ -6,22 +6,22 @@ public class AlphaBetaAI extends AI
 		super(h);
 		for (int i = 1; i <= 64; i++)
 			value[i] = 0;
-		value[1] = 500;
-		value[8] = 500;
-		value[57] = 500;
-		value[64] = 500;
-		value[2] = -10;
-		value[7] = -10;
-		value[9] = -10;
-		value[10] = -10;
-		value[15] = -10;
-		value[16] = -10;
-		value[49] = -10;
-		value[50] = -10;
-		value[58] = -10;
-		value[55] = -10;
-		value[56] = -10;
-		value[63] = -10;
+		value[1] = 100;
+		value[8] = 100;
+		value[57] = 100;
+		value[64] = 100;
+		value[2] = -1;
+		value[7] = -1;
+		value[9] = -1;
+		value[10] = -1;
+		value[15] = -1;
+		value[16] = -1;
+		value[49] = -1;
+		value[50] = -1;
+		value[58] = -1;
+		value[55] = -1;
+		value[56] = -1;
+		value[63] = -1;
 	}
 	public AlphaBetaAI(int x[], int h)
 	{
@@ -51,11 +51,11 @@ public class AlphaBetaAI extends AI
 			for (int i = 0; i < 64; i++)
 			{
 				if (pt[i] == hold)
-					sum += value[i] + 32 / (double)(65.0 - hands);
+					sum += value[i] + Math.pow(1.5, Math.max(35, hands) - 35) * 0.09;
 				else if (pt[i] == -hold)
-					sum -= value[i] + 32 / (double)(65.0 - hands);
+					sum -= value[i] + Math.pow(1.5, Math.max(35, hands) - 35) * 0.09;
 			}
-			if (Board.terminal(pt)) sum *= 100;
+			if (Board.terminal(pt)) sum *= 50;
 			return sum;
 		}
 		if (h == hold)
@@ -85,11 +85,12 @@ public class AlphaBetaAI extends AI
 	{
 		int[] steps = new int[65];
 		int step = 1;
-		double max = -100000, temp;
+		double max = -10000000, temp;
 		int[] s = new int[64];
-		int depth = 3;
+		int depth = 4;
 		int hands = Board.calcHand(table.getTable());
 		steps = table.nextSteps(hold);
+		int[] nexts = new int[65];
 		if (steps[0] > 0)
 		{
 			if (steps[0] == 1)
@@ -101,19 +102,23 @@ public class AlphaBetaAI extends AI
 						s[(i - 1) * 8 + j - 1] = table.bigTable[i][j];
 				for (int i = 1; i <= steps[0]; i++)
 				{
-					if (hands <= 10)
-						depth = 5;
-					else if (hands <= 58)
-						depth = 4;
-					else
-						depth = 3;
-					temp = AlphaBeta(steps[i], s, depth, -100000, 100000, hold);
+					temp = AlphaBeta(steps[i], s, depth, -10000000, 10000000, hold);
 					if (temp > max)
 					{
 						max = temp;
-						step = steps[i];
+						nexts[0] = 1;
+						nexts[1] = steps[i];
+					}
+					else if (temp == max)
+					{
+						nexts[0]++;
+						nexts[nexts[0]] = steps[i];
 					}
 				}
+				if (nexts[0] == 1)
+					step = nexts[1];
+				else
+					step = nexts[(int)(Math.random() * nexts[0]) + 1];
 			}
 			table.set(step / 8 + 1, step % 8 + 1, hold);	
 			return step;
