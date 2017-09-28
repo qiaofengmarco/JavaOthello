@@ -8,7 +8,7 @@ public class QLearningAI extends AI
 	private NeuralNetwork dqn;
 	private HashBasedTable<Integer[], Integer, Double> Q = HashBasedTable.create();
 	private LinkedList<Transition> D = new LinkedList<Transition>();
-	private double epsilon = 0.7, gamma = 0.85;
+	private double epsilon = 0.9, gamma = 0.99;
 	private int maxSize = 1000, minibatchSize = 0;
 	public QLearningAI(int h)
 	{

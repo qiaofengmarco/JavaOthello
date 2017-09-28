@@ -13,16 +13,16 @@ public class NeuralNetwork
 	{
 		int kk = 0;
 		path = name;
-		vv = new double[4][100];
-		mm = new double[4][100];
+		vv = new double[4][200];
+		mm = new double[4][200];
 		b = new double[4][];
 		db = new double[4][];
 		sum = new double[3][];
 		for (int i = 0; i <= 2; i++)
 		{
-			b[i] = new double[100];
-			db[i] = new double[100];
-			sum[i] = new double[100];
+			b[i] = new double[200];
+			db[i] = new double[200];
+			sum[i] = new double[200];
 		}
 		b[3] = new double[64];
 		db[3] = new double[64];
@@ -30,26 +30,26 @@ public class NeuralNetwork
 		dw = new double[4][][];
 		v = new double[4][][];
 		m = new double[4][][];
-		w[0] = new double[64][100];
-		dw[0] = new double[64][100];
-		v[0] = new double[64][100];
-		m[0] = new double[64][100];
-		w[3] = new double[100][64];
-		dw[3] = new double[100][64];
-		v[3] = new double[100][64];
-		m[3] = new double[100][64];
+		w[0] = new double[64][200];
+		dw[0] = new double[64][200];
+		v[0] = new double[64][200];
+		m[0] = new double[64][200];
+		w[3] = new double[200][64];
+		dw[3] = new double[200][64];
+		v[3] = new double[200][64];
+		m[3] = new double[200][64];
 		for (int i = 1; i <= 2; i++)
 		{
-			w[i] = new double[100][100];
-			dw[i] = new double[100][100];
-			v[i] = new double[100][100];
-			m[i] = new double[100][100];
+			w[i] = new double[200][200];
+			dw[i] = new double[200][200];
+			v[i] = new double[200][200];
+			m[i] = new double[200][200];
 		}
 		
 		
 		error = new double[4][];
 		for (int i = 0; i < 3; i++)
-			error[i] = new double[100];
+			error[i] = new double[200];
 		error[3] = new double[1];
 		
 		File f = new File(name);
@@ -63,21 +63,21 @@ public class NeuralNetwork
 			IOHandler handler = new IOHandler(path);
 			handler.openFileWrite();
 			for (int i = 0; i < 64; i++)
-				for (int j = 0; j < 100; j++)
+				for (int j = 0; j < 200; j++)
 				{
 						kk = (int)(Math.random() * 2);
 						w[0][i][j] = (Math.random() * 29 + 1) * 0.01 * ((int)Math.pow(-1, kk));
 						handler.writeDouble(w[0][i][j]);
 				}
 			for (int i = 1; i < 3; i++)
-				for (int j = 0; j < 100; j++)
-					for (int k = 0; k < 100; k++)
+				for (int j = 0; j < 200; j++)
+					for (int k = 0; k < 200; k++)
 					{
 						kk = (int)(Math.random() * 2);
 						w[i][j][k] = (Math.random() * 29 + 1) * 0.01 * ((int)Math.pow(-1, kk));
 						handler.writeDouble(w[i][j][k]);
 					}
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 200; i++)
 				for (int j = 0; j < 64; j++)
 				{
 					kk = (int)(Math.random() * 2);
@@ -85,7 +85,7 @@ public class NeuralNetwork
 					handler.writeDouble(w[3][i][j]);
 				}
 			for (int i = 0; i < 3; i++)
-				for (int j = 0; j < 100; j++)
+				for (int j = 0; j < 200; j++)
 				{
 					kk = (int)(Math.random() * 2);
 					b[i][j] = (Math.random() * 29 + 1) * 0.01 * ((int)Math.pow(-1, kk));
@@ -108,17 +108,17 @@ public class NeuralNetwork
 		IOHandler handler = new IOHandler(path);
 		handler.openFileWrite();
 		for (int i = 0; i < 64; i++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 				handler.writeDouble(w[0][i][j]);
 		for (int i = 1; i < 3; i++)
-			for (int j = 0; j < 100; j++)
-				for (int k = 0; k < 100; k++)
+			for (int j = 0; j < 200; j++)
+				for (int k = 0; k < 200; k++)
 					handler.writeDouble(w[i][j][k]);
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 200; i++)
 			for (int j = 0; j < 64; j++)
 				handler.writeDouble(w[3][i][j]);
 		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 				handler.writeDouble(b[i][j]);
 		for (int i = 0; i < 64; i++)
 			handler.writeDouble(b[3][i]);
@@ -130,17 +130,17 @@ public class NeuralNetwork
 		IOHandler handler = new IOHandler(path);
 		handler.openFileRead();
 		for (int i = 0; i < 64; i++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 				w[0][i][j] = handler.readDouble();
 		for (int i = 1; i < 3; i++)
-			for (int j = 0; j < 100; j++)
-				for (int k = 0; k < 100; k++)
+			for (int j = 0; j < 200; j++)
+				for (int k = 0; k < 200; k++)
 					w[i][j][k] = handler.readDouble();
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 200; i++)
 			for (int j = 0; j < 64; j++)
 				w[3][i][j] = handler.readDouble();
 		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 				b[i][j] = handler.readDouble();
 		for (int i = 0; i < 64; i++)
 			b[3][i] = handler.readDouble();
@@ -163,7 +163,7 @@ public class NeuralNetwork
 	{
 		double ans = 0;
 		
-		for (int j = 0; j < 100; j++)
+		for (int j = 0; j < 200; j++)
 		{
 			for (int i = 0; i < 64; i++)
 			{
@@ -174,9 +174,9 @@ public class NeuralNetwork
 		}
 		
 		for (int k = 1; k <= 2; k++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 			{
-				for (int i = 0; i < 100; i++)
+				for (int i = 0; i < 200; i++)
 				{
 					if (i == 0) sum[k][j] = 0; //clear
 					sum[k][j] += sum[k - 1][i] * w[k][i][j];
@@ -185,7 +185,7 @@ public class NeuralNetwork
 			}
 			
 		ans = 0;
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 200; i++)
 			ans += sum[2][i] * w[3][i][action];
 		//previous: ans = Math.tanh(ans + b[3][action]);
 		ans += b[3][action];
@@ -205,7 +205,7 @@ public class NeuralNetwork
 			//dE /dw_i,j = dE / dnet_j * x_i,j		
 			//previous: error[3][0] = (1 - Math.pow(y[kk], 2.0)) * (y[kk] - t);		
 			error[3][0] = y[kk] - t;
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 200; i++)
 			{
 				//update w_3,i,action and b_3,action 
 				dw[3][i][action[kk]] +=  error[3][0] * sum[2][i]; 
@@ -217,9 +217,9 @@ public class NeuralNetwork
 			//[(n-1) hidden -> (n-2) hidden]
 			//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k) where l is round and k is from j's downstream 
 			//dE /dw_i,j = dE / dnet_j * x_i,j		
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 200; i++)
 			{
-				for (int j = 0; j < 100; j++)
+				for (int j = 0; j < 200; j++)
 				{
 					//the statement below simply means:
 					//temp = error[2][0] * w[3][j][action];
@@ -236,12 +236,12 @@ public class NeuralNetwork
 			//[(n-2) hidden -> (n-3) hidden]
 			//dE / dnet_j = df(j) * sigma(error_l,k * w_l,j,k) where l is round and k is from j's downstream 
 			//dE /dw_i,j = dE / dnet_j * x_i,j		
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 200; i++)
 			{
-				for (int j = 0; j < 100; j++)
+				for (int j = 0; j < 200; j++)
 				{
 					temp = 0;
-					for (int k = 0; k < 100; k++)
+					for (int k = 0; k < 200; k++)
 						temp += error[2][k] * w[2][j][k];
 					error[1][j] = temp * de(sum[1][i]);
 					dw[1][i][j] += error[1][j] * sum[0][i];
@@ -256,10 +256,10 @@ public class NeuralNetwork
 			//dE /dw_i,j = dE / dnet_j * x_i,j		
 			for (int i = 0; i < 64; i++)
 			{
-				for (int j = 0; j < 100; j++)
+				for (int j = 0; j < 200; j++)
 				{
 					temp = 0;
-					for (int k = 0; k < 100; k++)
+					for (int k = 0; k < 200; k++)
 						temp += error[1][k] * w[1][j][k];
 					error[0][j] = temp * de(sum[0][i]);
 					dw[0][i][j] += error[0][j] * x[kk][i];
@@ -271,7 +271,7 @@ public class NeuralNetwork
 		for (int kk = 0; kk < minibatchSize; kk++)
 			if (ct[action[kk]] > 0)
 			{
-				for (int i = 0; i < 100; i++)
+				for (int i = 0; i < 200; i++)
 				{
 					dw[3][i][action[kk]] = (1.0 / ct[action[kk]]) * dw[3][i][action[kk]];
 					m[3][i][action[kk]] = 0.9 * m[3][i][action[kk]] + 0.1 * dw[3][i][action[kk]];
@@ -288,7 +288,7 @@ public class NeuralNetwork
 			}
 			
 		for (int i = 0; i < 64; i++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 			{
 				dw[0][i][j] = (1 / minibatchSize) * dw[0][i][j];
 				m[0][i][j] = 0.9 * m[0][i][j] + 0.1 * dw[0][i][j];
@@ -297,8 +297,8 @@ public class NeuralNetwork
 				dw[0][i][j] = 0;
 			}
 		for (int k = 1; k <= 2; k++)
-			for (int i = 0; i < 100; i++)
-				for (int j = 0; j < 100; j++)
+			for (int i = 0; i < 200; i++)
+				for (int j = 0; j < 200; j++)
 				{
 					dw[k][i][j] = (1 / minibatchSize) * dw[k][i][j];
 					m[k][i][j] = 0.9 * m[k][i][j] + 0.1 * dw[k][i][j];
@@ -307,7 +307,7 @@ public class NeuralNetwork
 					dw[k][i][j] = 0;
 				}
 		for (int i = 0; i < 3; i++)
-			for (int j = 0; j < 100; j++)
+			for (int j = 0; j < 200; j++)
 			{
 				db[i][j] = (1 / minibatchSize) * db[i][j];
 				mm[i][j] = 0.9 * mm[i][j] + 0.1 * db[i][j];
