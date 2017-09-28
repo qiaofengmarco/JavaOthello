@@ -42,5 +42,7 @@
  2.   调整了AlphaBetaAI的某些参数
  3.   修正Board.java的bug并加入了新的辅助函数
  4.   下一步：重新完善QLearningAI...？完善游戏UI...？还是就先放一放...？
+ 5.   下一阶段的重要参考资料:
+    + https://aijunbai.github.io/publications/USTC07-Bai.pdf
 
 **更新于2017.9.24**
