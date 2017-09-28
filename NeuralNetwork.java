@@ -204,7 +204,7 @@ public class NeuralNetwork
 			//dE / dnet_j = df * (y - t)
 			//dE /dw_i,j = dE / dnet_j * x_i,j		
 			//previous: error[3][0] = (1 - Math.pow(y[kk], 2.0)) * (y[kk] - t);		
-			error[3][0] = y[kk] - t;
+			error[3][0] = 0.5 * y[kk] - t;
 			for (int i = 0; i < 200; i++)
 			{
 				//update w_3,i,action and b_3,action 
