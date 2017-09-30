@@ -44,9 +44,9 @@
  3. Fixed bugs in Board.java and added new static functions as helper functions.
  
 ## 2017.9.30 Update:
- 1. Convert previous version README.md into English version. (Ignore my non-native expressions...) 
- 2. To do：perfect the QLearningAI, apply GPU acceleration in NeuralNetwork.java...
- 3. Important reference:
+ 1. Converted previous version README.md into English version. (Ignore my non-native expressions...) 
+ 2. To do next：perfect the QLearningAI, apply GPU acceleration in NeuralNetwork.java...
+ 3. Important references:
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
 
