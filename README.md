@@ -3,7 +3,8 @@
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d1.png)
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d2.png)
 
-+ Dependency: Google Guava version 23.0, JCublas 0.8.0 (comming soon...)
++ Dependency: <b> Google Guava version 23.0 <b/>, <b> JCublas 0.8.0 <b/> (comming soon...)
+
 ## 2017.9.14 Update:
  1. Added TrainFrame class.
  2. Added alpha-beta pruning Min-max AI, referring to：
