@@ -50,4 +50,4 @@
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
 
-**Finished on 2017.9.30**
+**Finished on 2017.9.30.**
