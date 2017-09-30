@@ -15,22 +15,70 @@ public class QLearningAI extends AI
 		super(h);
 		for (int i = 1; i <= 64; i++)
 			value[i] = 0;
-		value[1] = 1;
-		value[8] = 1;
-		value[57] = 1;
-		value[64] = 1;
-		value[2] = -0.25;
-		value[7] = -0.25;
-		value[9] = -0.25;
-		value[10] = -0.25;
-		value[15] = -0.25;
-		value[16] = -0.25;
-		value[49] = -0.25;
-		value[50] = -0.25;
-		value[58] = -0.25;
-		value[55] = -0.25;
-		value[56] = -0.25;
-		value[63] = -0.25;		
+		value[1] = 0.9;
+		value[2] = -0.6;
+		value[3] = 0.1;
+		value[4] = 0.1;
+		value[5] = 0.1;
+		value[6] = 0.1;
+		value[7] = -0.6;
+		value[8] = 0.9;
+		value[9] = -0.6;
+		value[10] = -0.8;
+		value[11] = 0.05;
+		value[12] = 0.05;
+		value[13] = 0.05;
+		value[14] = 0.05;
+		value[15] = -0.8;
+		value[16] = -0.6;
+		value[17] = 0.1;
+		value[18] = 0.05;
+		value[19] = 0.01;
+		value[20] = 0.01;
+		value[21] = 0.01;
+		value[22] = 0.01;
+		value[23] = 0.05;
+		value[24] = 0.1;
+		value[25] = 0.1;
+		value[26] = 0.05;
+		value[27] = 0.01;
+		value[28] = 0.01;
+		value[29] = 0.01;
+		value[30] = 0.01;
+		value[31] = 0.05;
+		value[32] = 0.1;
+		value[33] = 0.1;
+		value[34] = 0.05;
+		value[35] = 0.01;
+		value[36] = 0.01;
+		value[37] = 0.01;
+		value[38] = 0.01;
+		value[39] = 0.05;
+		value[40] = 0.1;
+		value[41] = 0.1;
+		value[42] = 0.05;
+		value[43] = 0.01;
+		value[44] = 0.01;
+		value[45] = 0.01;
+		value[46] = 0.01;
+		value[47] = 0.05;
+		value[48] = 0.1;
+		value[49] = -0.6;
+		value[50] = -0.8;
+		value[51] = -0.05;
+		value[52] = -0.05;
+		value[53] = -0.05;
+		value[54] = -0.05;
+		value[55] = -0.8;
+		value[56] = -0.6;
+		value[57] = 0.9;
+		value[58] = -0.6;
+		value[59] = 0.1;
+		value[60] = 0.1;
+		value[61] = 0.1;
+		value[62] = 0.1;
+		value[63] = -0.6;
+		value[64] = 0.9;		
 	}
 	private double max(double a, double b)
 	{
@@ -41,17 +89,16 @@ public class QLearningAI extends AI
 	private double evaluate(int[] x)
 	{
 		double sum = 0;
-		int hand = 0;
-		for (int i = 0; i < 64; i++)
-			if (x[i] != 0)
-				hand++;
-		for (int i = 0; i < 64; i++)
-		{
-			if (x[i] == hold)
-				sum += (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
-			else if (x[i] == -hold)
-				sum -= (value[i] * (32.0 / (double)(hand)) + 0.32 / (double)(65.0 - hand)) * 0.1;
-		}
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				if (table.bigTable[i][j] != 0) continue;
+				if (table.checkStep(i, j, hold))
+					sum += 0.01;
+				if (table.checkStep(i, j, -hold))
+					sum -= 0.01;
+				sum += value[(i - 1) * 8 + j] * table.bigTable[i][j] * hold;
+			}
 		return sum;
 	}
 	public int[][] epsilon_greedy_move(int[] now)
@@ -61,7 +108,7 @@ public class QLearningAI extends AI
 		int[][] out = new int[2][64];
 		double p = Math.random(), max = -100000, temp, reward = 0, reward_temp = 0, now_value = 0;
 		int[] steps;
-		AlphaBetaAI opponent;
+		UCTAI opponent;
 		Integer[] st = Arrays.stream(now).boxed().toArray(Integer[]::new);
 		Integer a;
 		Double d;
@@ -73,7 +120,7 @@ public class QLearningAI extends AI
 		s1 = now;
 		while (steps[0] == 0)
 		{
-			opponent = new AlphaBetaAI(s1, -hold);
+			opponent = new UCTAI(s1, -hold);
 			opponent.move();
 			s1 = opponent.table.getTable();
 			steps = Board.searchNext(s1, hold);
@@ -129,7 +176,7 @@ public class QLearningAI extends AI
 			next = Board.nextState(now, action, hold);
 		
 			//opponent move
-			opponent = new AlphaBetaAI(next, -hold);
+			opponent = new UCTAI(next, -hold);
 			int opmove = opponent.move();
 			if (opmove >= 0) //opponent is moveable
 			{
