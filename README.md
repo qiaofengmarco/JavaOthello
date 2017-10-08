@@ -47,10 +47,20 @@
  3. Fixed bugs in Board.java and added new static functions as helper functions.
  
 ## 2017.9.30 Update:
- 1. Converted previous version README.md into English version. (Please forgive me for my non-native expressions...) 
- 2. To do next：perfect the QLearningAI, apply GPU acceleration in NeuralNetwork.java...
- 3. Important references:
+ 1. Converted previous version README.md into English version. (Please forgive me for my non-native expressions...)
+ 
+## 2017.10.8 Update:
+ 1. Wrote vector-based DNN VectorDNN.java. (Haven't finished yet...)
+ 2. Using JCublas for matrix-related or vector-related computation. (VectorMatrix.java)
+ + http://www.jcuda.org/jcuda/jcublas/doc/index.html
+ + http://blog.csdn.net/cqupt0901/article/details/26393857
+ + http://www.jcuda.org/jcuda/JCuda.html#Runtime
+ + http://www.jcuda.org/jcuda/jcublas/JCublas.html
+ + https://devtalk.nvidia.com/default/topic/1005058/cuda-programming-and-performance/jcuda-matrices-addition/
+ 3. Wrapped up Activator Functions. (Activator.java)
+ 4. To do next：modify the QLearningAI, check the correctness of VectorDNN...
+ 5. Important references:
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
 
-**Finished on 2017.9.30.**
+**Modified on 2017.10.8.**
