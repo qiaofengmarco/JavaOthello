@@ -56,7 +56,7 @@
  
 ## 2017.10.8 Update:
  1. Wrote vector-based DNN VectorDNN.java. (Haven't finished yet...)
- 2. Using JCublas for matrix-related or vector-related computation. (VectorMatrix.java)
+ 2. Used JCublas API for matrix-related or vector-related computations. (VectorMatrix.java)
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
  + http://blog.csdn.net/cqupt0901/article/details/26393857
  + http://www.jcuda.org/jcuda/JCuda.html#Runtime
