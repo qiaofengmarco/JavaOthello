@@ -5,7 +5,7 @@
 
 ## Dependencies: 
  + Google Guava version 23.0
- + JCublas 0.8.0 (Mainly JCublas...)
+ + JCuda 0.8.0 (Mainly JCublas...)
 
 ## 2017.9.14 Update:
  1. Added TrainFrame class.
