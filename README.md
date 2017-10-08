@@ -5,7 +5,7 @@
 
 ## Dependencies: 
  + Google Guava version 23.0
- + JCublas 0.8.0 (comming soon...)
+ + JCublas 0.8.0 (Mainly JCublas...)
 
 ## 2017.9.14 Update:
  1. Added TrainFrame class.
@@ -22,6 +22,7 @@
 ## 2017.9.21 Update:
  1. Corrected the mistakes in NeuralNetwork.java, rewrote the backward function.
  2. Finished QLearningAI.java and its debugging.
+ + http://blog.csdn.net/songrotek/article/details/50917286
  3. Added many static functions in Board.java as helper function.
 
 ## 2017.9.22 Update:
