@@ -46,7 +46,7 @@
  + http://blog.csdn.net/Dinosoft/article/details/50893291
  + http://www.jianshu.com/p/d011baff6b64
  + http://mcts.ai/pubs/mcts-survey-master.pdf
- ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d5.png)
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d5.png)
  2. Adjusted some parameters in AlphaBetaAI.java.
  3. Fixed bugs in Board.java and added new static functions as helper functions.
  
