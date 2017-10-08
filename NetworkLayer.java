@@ -105,7 +105,7 @@ public class NetworkLayer
 				d[i] = Activator.dSigmoid(out[i]) * (t[i] - out[i]);
 		}
 		
-		w_grad = VectorMatrix.mulVectorVector(delta, nodeNum, in, pre_nodeNum);
+		w_grad = VectorMatrix.mulVectorVector(d, nodeNum, in, pre_nodeNum);
 		b_grad = d;
 		
 		delta = VectorMatrix.mulMatrixVector(w, nodeNum, d, nodeNum, 'n');
