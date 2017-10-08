@@ -103,6 +103,7 @@ public class Board
 	public void set(int x, int y, int who)
 	{
 		int x1, y1, count = 0;
+		if ((x < 1) || (x > 8) || (y < 1) || (y > 8)) return;
 		for (int i = 1; i <= 8; i++)
 		{
 			count = 0; 
