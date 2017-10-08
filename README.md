@@ -52,7 +52,7 @@
  ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d5.png)
  
 ## 2017.9.30 Update:
- 1. Converted previous version README.md into English version. (Please forgive me for my non-native expressions...)
+ 1. Converted previous version README.md to English version. (Please forgive me for my non-native expressions...)
  
 ## 2017.10.8 Update:
  1. Wrote vector-based DNN VectorDNN.java. (Haven't finished yet...)
