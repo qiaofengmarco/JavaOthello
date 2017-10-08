@@ -23,6 +23,8 @@
  1. Corrected the mistakes in NeuralNetwork.java, rewrote the backward function.
  2. Finished QLearningAI.java and its debugging.
  + http://blog.csdn.net/songrotek/article/details/50917286
+ ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d3.png)
+ ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d4.png)
  3. Added many static functions in Board.java as helper function.
 
 ## 2017.9.22 Update:
