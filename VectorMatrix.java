@@ -21,11 +21,7 @@ public class VectorMatrix
 	}
 	public static double[] mulMatrixVector(double[] a, int n, double[] b, int m, char op)
 	{
-		double[] ans;
-		if (op == 'n')
-			ans = new double[n];
-		else
-			ans = new double[m];
+		double[] ans = new double[n];
 		JCublas.cublasInit();
 		Pointer da = new Pointer();
 		Pointer db = new Pointer();
@@ -33,9 +29,12 @@ public class VectorMatrix
 		JCublas.cublasAlloc(n * m, Sizeof.DOUBLE, da);
 		JCublas.cublasAlloc(m, Sizeof.DOUBLE, db);	
 		JCublas.cublasAlloc(n, Sizeof.DOUBLE, dc);
-		JCublas.cublasSetMatrix(n, m, Sizeof.DOUBLE, Pointer.to(a), n, da, n);
+		if (op == 't')
+			JCublas.cublasSetMatrix(n, m, Sizeof.DOUBLE, Pointer.to(a), n, da, n);
+		else
+			JCublas.cublasSetMatrix(m, n, Sizeof.DOUBLE, Pointer.to(a), m, da, m);			
 		JCublas.cublasSetVector(m, Sizeof.DOUBLE, Pointer.to(b), 1, db, 1);
-		JCublas.cublasSetVector(m, Sizeof.DOUBLE, Pointer.to(ans), 1, dc, 1);
+		JCublas.cublasSetVector(n, Sizeof.DOUBLE, Pointer.to(ans), 1, dc, 1);
 		JCublas.cublasDgemv(op, n, m, 1, da, n, db, 1, 0, dc, 1);
 		JCublas.cublasGetVector(n, Sizeof.DOUBLE, dc, 1, Pointer.to(ans), 1);
 		JCublas.cublasFree(da);

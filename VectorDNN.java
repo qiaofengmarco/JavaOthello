@@ -96,19 +96,23 @@ public class VectorDNN
 	public boolean checkGradient(double[] x, double[] tag, int size)
 	{
 		double[] y;
-		double epsilon = 0.0001, e1, e2, expected;
+		double epsilon = 0.000001, e1, e2, expected;
 		y = forward(x);
 		for (int i = 0; i < layers; i++)
 		{
 			for (int j = 0; j < layer[i].pre_nodeNum * layer[i].nodeNum; j++)
 			{
+				System.out.printf("%d %d\n", i, j);
 				layer[i].w[j] += epsilon;
 				e1 = calcError(forward(x), tag, size);
 				layer[i].w[j] -= 2 * epsilon;
 				e2 = calcError(forward(x), tag, size);
 				expected = (e2 - e1) / (2 * epsilon);
-				if (Math.abs(expected - layer[i].w_grad[j]) > 0.0001)
+				if (Math.abs(expected - layer[i].w_grad[j]) > 0.000001)
+				{
+					System.out.printf("%f\n", Math.abs(expected - layer[i].w_grad[j]));
 					return false;
+				}
 			}
 		}
 		return true;
@@ -169,5 +173,19 @@ public class VectorDNN
 				layer[i].b[j] = handler.readDouble();
 		}
 		handler.closeAll();			
+	}
+	public static void main(String[] args)
+	{
+		VectorDNN dnn = new VectorDNN("test.txt");
+		double[] x = new double[64];
+		double[] tag = new double[1];
+		int[] a = Board.getInit();
+		for (int i = 0; i < 64; i++)
+			x[i] = (double) a[i];
+		tag[0] = 0.5;
+		if (dnn.checkGradient(x, tag, 1))
+			System.out.println("Successful!");
+		else
+			System.out.println("Failed!");
 	}
 }

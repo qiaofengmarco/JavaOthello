@@ -74,7 +74,7 @@ public class NetworkLayer
 		}
 		
 		// delta = (W^T * pre_delta) * deOut
-		delta = VectorMatrix.mulMatrixVector(w, nodeNum, pre_delta, nodeNum, 'n');
+		delta = VectorMatrix.mulMatrixVector(w, pre_nodeNum, pre_delta, nodeNum, 'n');
 		for (int i = 0; i < pre_nodeNum; i++)
 			delta[i] *= deInput[i];
 		
@@ -108,6 +108,6 @@ public class NetworkLayer
 		w_grad = VectorMatrix.mulVectorVector(d, nodeNum, in, pre_nodeNum);
 		b_grad = d;
 		
-		delta = VectorMatrix.mulMatrixVector(w, nodeNum, d, nodeNum, 'n');
+		delta = VectorMatrix.mulMatrixVector(w, pre_nodeNum, d, nodeNum, 'n');
 	}
 }
