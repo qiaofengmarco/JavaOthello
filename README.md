@@ -62,6 +62,9 @@
  
 ## 2017.10.8 Update:
  1. Wrote vector-based DNN VectorDNN.java. (Haven't finished yet...)
+ 
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d7.png) 
+    
  2. Used JCublas API for matrix-related or vector-related computations. (VectorMatrix.java)
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
  + http://blog.csdn.net/cqupt0901/article/details/26393857
@@ -76,8 +79,9 @@
     ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
  
  2. Normalized the format of codes.
- 3. To do next：modify the QLearningAI, check the correctness of VectorDNN...
- 4. Important references:
+ 3. Fixed bug in VectorMatrix.java.
+ 4. To do next：fix VectorDNN...QAQ
+ 5. Important references:
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
 
