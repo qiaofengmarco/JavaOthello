@@ -9,11 +9,20 @@ public class Chess extends JPanel
     }
 	public void paintComponent(Graphics g)
 	{
+		Graphics2D g2 = (Graphics2D) g;
 		super.paintComponent(g);
-		if (color == 1)
-			g.fillOval(0, 0, getWidth(), getHeight());
-		else if (color == -1)
-			g.drawOval(0, 0, getWidth(), getHeight());
 		g.drawRect(0, 0, getWidth(), getHeight());
+		if ((color == 1) || (color == 2))
+			g.fillOval(0, 0, getWidth(), getHeight());
+		else if ((color == -1) || (color == -2))
+			g.drawOval(0, 0, getWidth(), getHeight());
+		if ((color == 2) || (color == -2))
+		{
+			g2.setColor(Color.GREEN);
+			g2.setStroke(new BasicStroke(8.0f));
+			g.drawRect(0, 0, getWidth(), getHeight());
+			g2.setStroke(new BasicStroke(1.0f));
+			g2.setColor(Color.BLACK);
+		}
 	}
 }

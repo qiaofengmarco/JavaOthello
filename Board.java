@@ -82,9 +82,9 @@ public class Board
 		int ans = -1;
 		int a = 0, b = 0;
 		for (int i = 0; i < 64; i++)
-			if (s[i] == 1)
+			if ((s[i] == 1) || (s[i] == 2))
 				a++;
-			else if (s[i] == -1)
+			else if ((s[i] == -1) || (s[i] == -2))
 				b++;
 		if (a > b)
 			return 1;
@@ -111,15 +111,15 @@ public class Board
 			y1 = y + MoveY[i];
 			count++;
 			if ((x1 < 1) || (x1 > 8) || (y1 < 1) || (y1 > 8)) continue;
-			if (bigTable[x1][y1] != -who) continue;
-			while (bigTable[x1][y1] == -who)
+			if ((bigTable[x1][y1] != -who) && (bigTable[x1][y1] != -2 * who)) continue;
+			while ((bigTable[x1][y1] == -who) || (bigTable[x1][y1] == -2 * who))
 			{
 				x1 += MoveX[i];
 				y1 += MoveY[i];
 				count++;
 				if ((x1 < 1) || (x1 > 8) || (y1 < 1) || (y1 > 8)) break; 
 				if (bigTable[x1][y1] == 0) break;
-				if (bigTable[x1][y1] == who)
+				if ((bigTable[x1][y1] == who) || (bigTable[x1][y1] == 2 * who))
 				{
 					for (int j = 1; j <= count - 1; j++)
 					{
@@ -130,7 +130,7 @@ public class Board
 				}
 			}
 		}
-		bigTable[x][y] = who;
+		bigTable[x][y] = who * 2;
 		hand++;
 		if (who == 1)
 			bhand++;
@@ -147,14 +147,14 @@ public class Board
 			x1 = x + MoveX[i];
 			y1 = y + MoveY[i];
 			if ((x1 < 1) || (x1 > 8) || (y1 < 1) || (y1 > 8)) continue;
-			if (bigTable[x1][y1] != -who) continue;
-			while (bigTable[x1][y1] == -who)
+			if ((bigTable[x1][y1] != -who) && (bigTable[x1][y1] != -2 * who)) continue;
+			while ((bigTable[x1][y1] == -who) || (bigTable[x1][y1] == -2 * who))
 			{
 				x1 += MoveX[i];
 				y1 += MoveY[i];
 				if (((x1 < 1) || (x1 > 8) || (y1 < 1) || (y1 > 8))) break;
 				if (bigTable[x1][y1] == 0) break;
-				if (bigTable[x1][y1] == who) 
+				if ((bigTable[x1][y1] == who) || (bigTable[x1][y1] == 2 * who))
 				{
 					return true;
 				}

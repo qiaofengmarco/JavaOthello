@@ -39,6 +39,7 @@ public class InitFrame extends JFrame implements MouseListener
 		setSize(400, 235);
 		setVisible(true);
 		setFocusable(true);
+		setResizable(false);
 	}
 	public void mousePressed(MouseEvent event)
 	{

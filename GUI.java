@@ -24,6 +24,8 @@ public class GUI extends JFrame implements MouseListener
 					{
 						p[i][j].color = table.bigTable[i + 1][j + 1];
 						p[i][j].repaint();
+						if ((table.bigTable[i + 1][j + 1] == -2) || (table.bigTable[i + 1][j + 1] == 2))
+							table.bigTable[i + 1][j + 1] /= 2;
 					}
 			}
 		};
@@ -40,6 +42,7 @@ public class GUI extends JFrame implements MouseListener
 		addMouseListener(this);
 		setBackground(Color.white);
 		setSize(600, 600);
+		setResizable(false);
 	}
 	public void init()
 	{
@@ -89,7 +92,7 @@ public class GUI extends JFrame implements MouseListener
 					now = ai.hold;
 					lock = true;
 					done = true;
-					big.repaint();
+					//big.repaint();
 				}
 			}
 		}
@@ -121,7 +124,7 @@ public class GUI extends JFrame implements MouseListener
 		init();
 		while (true)
 		{
-			big.repaint();
+			//big.repaint();
 			
 			if (now == ai.hold)
 			{
@@ -145,6 +148,7 @@ public class GUI extends JFrame implements MouseListener
 			}
 			else if (now == player.hold)
 			{
+				big.repaint();
 				moves = table.nextSteps(player.hold);
 				if ((count1 > 0) && (moves[0] == 0))
 				{
