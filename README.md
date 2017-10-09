@@ -26,8 +26,11 @@
  1. Corrected the mistakes in NeuralNetwork.java, rewrote the backward function.
  2. Finished QLearningAI.java and its debugging.
  + http://blog.csdn.net/songrotek/article/details/50917286
+ 
  ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d3.png)
+ 
  ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d4.png)
+ 
  3. Added many static functions in Board.java as helper function.
 
 ## 2017.9.22 Update:
@@ -70,7 +73,7 @@
 ## 2017.10.9 Update:
  1. Improved GUI. 
  
- ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
  
  2. Normalized the format of codes.
  3. To do next：modify the QLearningAI, check the correctness of VectorDNN...
