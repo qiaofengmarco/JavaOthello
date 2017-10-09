@@ -4,8 +4,6 @@ public class VectorDNN
 {
 	private NetworkLayer[] layer;
 	private int layers = 1;
-	private double[][] w_grad_tot;
-	private double[][] b_grad_tot;
 	private double learning_rate = 0.02;
 	private String path;
 	public VectorDNN(String name)
@@ -13,8 +11,7 @@ public class VectorDNN
 		double kk;
 		path = name;
 		layer = new NetworkLayer[6];
-		w_grad_tot = new double[6][];
-		b_grad_tot = new double[6][];
+
 		layer[0] = new NetworkLayer(64, 16);
 		layer[1] = new NetworkLayer(16, 16);
 		layer[2] = new NetworkLayer(16, 16);
@@ -22,15 +19,6 @@ public class VectorDNN
 		layer[4] = new NetworkLayer(16, 16);
 		layer[5] = new NetworkLayer(16, 1);
 		layers = 6;
-		for (int i = 1; i < 5; i++)
-		{
-			w_grad_tot[i] = new double[16 * 16];
-			b_grad_tot[i] = new double[16];
-		}
-		b_grad_tot[0] = new double[16];
-		w_grad_tot[0] = new double[64 * 16];
-		b_grad_tot[5] = new double[1];
-		w_grad_tot[5] = new double[16];
 
 		File f = new File(path);
 		if (!f.exists())
@@ -127,6 +115,19 @@ public class VectorDNN
 	}
 	public void minibatchSGD(double[][] x, double[][] tag, int batchSize)
 	{
+		double[][] w_grad_tot = new double[6][];
+		double[][] b_grad_tot = new double[6][];
+		
+		for (int i = 1; i < 5; i++)
+		{
+			w_grad_tot[i] = new double[16 * 16];
+			b_grad_tot[i] = new double[16];
+		}
+		b_grad_tot[0] = new double[16];
+		w_grad_tot[0] = new double[64 * 16];
+		b_grad_tot[5] = new double[1];
+		w_grad_tot[5] = new double[16];
+		
 		for (int k = 0; k < batchSize; k++)
 		{
 			backward(x[k], tag[k]);
