@@ -19,7 +19,7 @@ public class Chess extends JPanel
 		if ((color == 2) || (color == -2))
 		{
 			g2.setColor(Color.GREEN);
-			g2.setStroke(new BasicStroke(8.0f));
+			g2.setStroke(new BasicStroke(6.0f));
 			g.drawRect(0, 0, getWidth(), getHeight());
 			g2.setStroke(new BasicStroke(1.0f));
 			g2.setColor(Color.BLACK);
