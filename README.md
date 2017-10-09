@@ -1,7 +1,10 @@
 # Othello
 
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d1.png)
+
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d2.png)
+
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
 
 ## Dependencies: 
  + Google Guava version 23.0
@@ -63,9 +66,16 @@
  + http://www.jcuda.org/jcuda/jcublas/JCublas.html
  + https://devtalk.nvidia.com/default/topic/1005058/cuda-programming-and-performance/jcuda-matrices-addition/
  3. Wrapped up Activator Functions. (Activator.java)
- 4. To do next：modify the QLearningAI, check the correctness of VectorDNN...
- 5. Important references:
+
+## 2017.10.9 Update:
+ 1. Improved GUI. 
+ 
+ ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
+ 
+ 2. Normalized the format of codes.
+ 3. To do next：modify the QLearningAI, check the correctness of VectorDNN...
+ 4. Important references:
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
 
-**Modified on 2017.10.8.**
+**Modified on 2017.10.9.**
