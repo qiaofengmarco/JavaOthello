@@ -18,6 +18,7 @@
 ## 2017.9.19 Update:
  1. Added NeuralNetwork class, referring to：
  + http://ufldl.stanford.edu/tutorial/supervised/MultiLayerNeuralNetworks/
+ + http://ufldl.stanford.edu/wiki/index.php/%E5%8F%8D%E5%90%91%E4%BC%A0%E5%AF%BC%E7%AE%97%E6%B3%95
  + https://www.zybuluo.com/hanbingtao/note/476663
  + http://shuokay.com/2016/06/11/optimization/ 
  2. Added IOHandler class.
