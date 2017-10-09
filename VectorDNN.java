@@ -119,7 +119,7 @@ public class VectorDNN
 				layer[i].w[j] -= 2 * epsilon;
 				e2 = calcError(forward(x), tag, size);
 				expected = (e2 - e1) / (2 * epsilon);
-				if (Math.abs(expected - layer[i].w_grad[j]) < 0.0001)
+				if (Math.abs(expected - layer[i].w_grad[j]) > 0.0001)
 					return false;
 			}
 		}
