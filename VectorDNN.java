@@ -10,15 +10,13 @@ public class VectorDNN
 	{
 		double kk;
 		path = name;
-		layer = new NetworkLayer[6];
+		layer = new NetworkLayer[4];
 
 		layer[0] = new NetworkLayer(64, 16);
 		layer[1] = new NetworkLayer(16, 16);
 		layer[2] = new NetworkLayer(16, 16);
-		layer[3] = new NetworkLayer(16, 16);
-		layer[4] = new NetworkLayer(16, 16);
-		layer[5] = new NetworkLayer(16, 1);
-		layers = 6;
+		layer[3] = new NetworkLayer(16, 1);
+		layers = 4;
 
 		File f = new File(path);
 		if (!f.exists())
@@ -34,13 +32,13 @@ public class VectorDNN
 			{
 				for (int j = 0; j < layer[i].pre_nodeNum * layer[i].nodeNum; j++)
 				{
-					kk = Math.random() + 0.01;
+					kk = Math.random() * 0.04 + 0.001;
 					layer[i].w[j] = kk;
 					handler.writeDouble(layer[i].w[j]);
 				}
 				for (int j = 0; j < layer[i].nodeNum; j++)
 				{
-					kk = Math.random() + 0.01;
+					kk = Math.random() * 0.005 + 0.0001;
 					layer[i].b[j] = kk;
 					handler.writeDouble(layer[i].b[j]);
 				}
@@ -66,8 +64,9 @@ public class VectorDNN
 	{
 		forward(x);
 		layer[layers - 1].backwardOut(t, 0);
-		for (int i = layers - 2; i >= 0; i--)
-			layer[i].backward(layer[i + 1].delta, 2);
+		for (int i = layers - 2; i >= 1; i--)
+			layer[i].backward(layer[i + 1].delta, 2, true);
+		layer[0].backward(layer[1].delta, 2, false);
 	}
 	public double evaluate(double[][] x, double[][] tag, int size)
 	{
@@ -96,14 +95,14 @@ public class VectorDNN
 	public boolean checkGradient(double[] x, double[] tag, int size)
 	{
 		double[] y;
-		double epsilon = 0.0001, e1, e2, expected;
-		double[][] w_grad = new double[6][];
+		double epsilon = 0.001, e1, e2, expected;
+		double[][] w_grad = new double[4][];
 		
-		for (int i = 1; i < 5; i++)
+		for (int i = 1; i < 3; i++)
 			w_grad[i] = new double[16 * 16];
 		w_grad[0] = new double[64 * 16];
-		w_grad[5] = new double[16];
-		y = forward(x);
+		w_grad[3] = new double[16];
+		backward(x, tag);
 		for (int i = 0; i < layers; i++)
 			for (int j = 0; j < layer[i].pre_nodeNum * layer[i].nodeNum; j++)
 				w_grad[i][j] = layer[i].w_grad[j];
@@ -111,15 +110,15 @@ public class VectorDNN
 		{
 			for (int j = 0; j < layer[i].pre_nodeNum * layer[i].nodeNum; j++)
 			{
-				System.out.printf("%d %d\n", i, j);
+				//System.out.printf("%d %d %f\n", i, j, w_grad[i][j]);
 				layer[i].w[j] += epsilon;
 				e1 = calcError(forward(x), tag, size);
 				layer[i].w[j] -= 2 * epsilon;
 				e2 = calcError(forward(x), tag, size);
 				expected = (e2 - e1) / (2 * epsilon);
-				if (Math.abs(expected - w_grad[i][j]) > 0.0001)
+				if (Math.abs(expected - w_grad[i][j]) > 0.001)
 				{
-					System.out.printf("%f\n", Math.abs(expected - w_grad[i][j]));
+					//System.out.printf("%f %f\n", expected, w_grad[i][j]);
 					return false;
 				}
 			}
@@ -128,18 +127,18 @@ public class VectorDNN
 	}
 	public void minibatchSGD(double[][] x, double[][] tag, int batchSize)
 	{
-		double[][] w_grad_tot = new double[6][];
-		double[][] b_grad_tot = new double[6][];
+		double[][] w_grad_tot = new double[4][];
+		double[][] b_grad_tot = new double[4][];
 		
-		for (int i = 1; i < 5; i++)
+		for (int i = 1; i < 3; i++)
 		{
 			w_grad_tot[i] = new double[16 * 16];
 			b_grad_tot[i] = new double[16];
 		}
 		b_grad_tot[0] = new double[16];
 		w_grad_tot[0] = new double[64 * 16];
-		b_grad_tot[5] = new double[1];
-		w_grad_tot[5] = new double[16];
+		b_grad_tot[3] = new double[1];
+		w_grad_tot[3] = new double[16];
 		
 		for (int k = 0; k < batchSize; k++)
 		{

@@ -49,41 +49,50 @@ public class NetworkLayer
 				out[i] += b[i];
 		}
 	}
-	public void backward(double[] pre_delta, int act_type)
+	public void backward(double[] pre_delta, int act_type, boolean calc_delta)
 	{
-		double[] deInput = new double[pre_nodeNum];
-		if (act_type == 0)
+		if (calc_delta)
 		{
-			for (int i = 0; i < pre_nodeNum; i++)
-				deInput[i] = 1;
-		}
-		else if (act_type == 1)
-		{
-			for (int i = 0; i < pre_nodeNum; i++)
-				deInput[i] = Activator.dRelu(in[i]);
-		}
-		else if (act_type == 2)
-		{
-			for (int i = 0; i < pre_nodeNum; i++)
-				deInput[i] = Activator.dLRelu(rate, in[i]);
-		}
-		else if (act_type == 3)
-		{
-			for (int i = 0; i < pre_nodeNum; i++)
-				deInput[i] = Activator.dSigmoid(in[i]);
-		}
+			double[] deInput = new double[pre_nodeNum];
+			if (act_type == 0)
+			{
+				for (int i = 0; i < pre_nodeNum; i++)
+					deInput[i] = 1;
+			}
+			else if (act_type == 1)
+			{
+				for (int i = 0; i < pre_nodeNum; i++)
+					deInput[i] = Activator.dRelu(in[i]);
+			}
+			else if (act_type == 2)
+			{
+				for (int i = 0; i < pre_nodeNum; i++)
+					deInput[i] = Activator.dLRelu(rate, in[i]);
+			}
+			else if (act_type == 3)
+			{
+				for (int i = 0; i < pre_nodeNum; i++)
+					deInput[i] = Activator.dSigmoid(in[i]);
+			}
 		
-		// delta = (W^T * pre_delta) * deOut
-		delta = VectorMatrix.mulMatrixVector(w, pre_nodeNum, pre_delta, nodeNum, 'n');
-		for (int i = 0; i < pre_nodeNum; i++)
-			delta[i] *= deInput[i];
-		
+			// delta = (W^T * pre_delta) * deOut
+			delta = VectorMatrix.mulMatrixVector(w, pre_nodeNum, pre_delta, nodeNum, 'n');
+			for (int i = 0; i < pre_nodeNum; i++)
+				delta[i] *= deInput[i];
+		}
+		//for (int j = 0; j < nodeNum; j++)
+			//System.out.printf("%f ", pre_delta[j]);
+		//System.out.println();		
 		w_grad = VectorMatrix.mulVectorVector(pre_delta, nodeNum, in, pre_nodeNum);
+		//for (int j = 0; j < pre_nodeNum * nodeNum; j++)
+			//System.out.printf("%f ", w_grad[j]);
+		//System.out.println();
 		b_grad = pre_delta;
 	}
 	public void backwardOut(double[] t, int act_type)
 	{
 		double[] d = new double[nodeNum];
+		System.out.printf("%f\n", out[0]);
 		if (act_type == 0)
 		{
 			for (int i = 0; i < nodeNum; i++)
@@ -105,9 +114,17 @@ public class NetworkLayer
 				d[i] = Activator.dSigmoid(out[i]) * (t[i] - out[i]);
 		}
 		
+		for (int j = 0; j < nodeNum; j++)
+			System.out.printf("%f ", d[j]);
+		System.out.println();		
+		
 		w_grad = VectorMatrix.mulVectorVector(d, nodeNum, in, pre_nodeNum);
 		b_grad = d;
 		
 		delta = VectorMatrix.mulMatrixVector(w, pre_nodeNum, d, nodeNum, 'n');
+		
+		//for (int j = 0; j < nodeNum; j++)
+			//System.out.printf("%f ", delta[j]);
+		//System.out.println();	
 	}
 }
