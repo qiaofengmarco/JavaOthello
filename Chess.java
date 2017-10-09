@@ -3,10 +3,10 @@ import java.awt.*;
 public class Chess extends JPanel
 {
 	public int color = 0;
-    public Chess() 
+	public Chess() 
 	{
 		setBackground(Color.white);
-    }
+	}
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;

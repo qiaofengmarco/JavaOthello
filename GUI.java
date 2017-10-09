@@ -98,9 +98,9 @@ public class GUI extends JFrame implements MouseListener
 		}
 	}
 	public void mouseReleased(MouseEvent event){}
-    public void mouseClicked(MouseEvent event){}
-    public void mouseEntered(MouseEvent event){}
-    public void mouseExited(MouseEvent event){}
+	public void mouseClicked(MouseEvent event){}
+	public void mouseEntered(MouseEvent event){}
+	public void mouseExited(MouseEvent event){}
 	public void checkWinner()
 	{
 		int p = 0, a = 0;

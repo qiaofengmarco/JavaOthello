@@ -23,6 +23,8 @@ public class Playground extends JFrame
 					{
 						p[i][j].color = table.bigTable[i + 1][j + 1];
 						p[i][j].repaint();
+						if ((table.bigTable[i + 1][j + 1] == -2) || (table.bigTable[i + 1][j + 1] == 2))
+							table.bigTable[i + 1][j + 1] /= 2;
 					}
 			}
 		};
@@ -38,6 +40,7 @@ public class Playground extends JFrame
 		add(big);
 		setBackground(Color.white);
 		setSize(600, 600);
+		setResizable(false);
 	}
 	public void init()
 	{

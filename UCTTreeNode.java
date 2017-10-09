@@ -1,18 +1,19 @@
 import java.util.ArrayList;
 
 public class UCTTreeNode{
-    public ArrayList<UCTTreeNode> children = new ArrayList<UCTTreeNode>();
-    public UCTTreeNode parent = null;
-    public int[] data = new int[64];
+	public ArrayList<UCTTreeNode> children = new ArrayList<UCTTreeNode>();
+	public UCTTreeNode parent = null;
+	public int[] data = new int[64];
 	public int expand = 0;
 	public int[] next = new int[65];
 	public int hold;
 	
-    public UCTTreeNode(int[] data, int h) {
+	public UCTTreeNode(int[] data, int h) 
+	{
 		for (int i = 0; i < 64; i++)
 			this.data[i] = data[i];
 		next = Board.searchNext(this.data, h);
-    }
+	}
 	
 	public boolean equals(Object o)
 	{
@@ -34,19 +35,22 @@ public class UCTTreeNode{
 		return data.hashCode();
 	}
 	
-    public void setParent(UCTTreeNode parent) {
-        this.parent = parent;
-    }
-    public void addChild(UCTTreeNode child) {
-        child.setParent(this);
-        this.children.add(child);
-    }
-    public UCTTreeNode addChild(int[] data) {
-        UCTTreeNode child = new UCTTreeNode(data, hold);
-        child.setParent(this);
-        this.children.add(child);
+	public void setParent(UCTTreeNode parent) 
+	{
+		this.parent = parent;
+	}
+	public void addChild(UCTTreeNode child) 
+	{
+		child.setParent(this);
+		this.children.add(child);
+	}
+	public UCTTreeNode addChild(int[] data) 
+	{
+		UCTTreeNode child = new UCTTreeNode(data, hold);
+		child.setParent(this);
+		this.children.add(child);
 		return child;
-    }
+	}
 
     public boolean isRoot() {
         return (this.parent == null);
