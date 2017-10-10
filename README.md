@@ -4,9 +4,9 @@
 
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d2.png)
 
-![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d7.png)
-
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png)
+
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d9.png)
 
 ## Dependencies: 
  + Google Guava version 23.0
@@ -87,9 +87,9 @@
 ## 2017.10.10 Update:
  1. Improved GUI.
  
-    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d7.png) 
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png) 
     
-    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png)
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d9.png)
     
  2. To do next：fix VectorDNN...QAQ
  3. Important references:
