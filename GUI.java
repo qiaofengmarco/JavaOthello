@@ -6,7 +6,7 @@ public class GUI extends JFrame implements MouseListener
 	public Chess[][] p;
 	public JPanel big;
 	private Player player;
-	private AlphaBetaAI ai;
+	private UCTAI ai;
 	private Board table = new Board();
 	private int now = 1;
 	private boolean lock = true, done = false;
@@ -22,6 +22,8 @@ public class GUI extends JFrame implements MouseListener
 				for (int i = 0; i < 8; i++)
 					for (int j = 0; j < 8; j++)
 					{
+						if (table.bigTable[i + 1][j + 1] * ai.hold == -2)
+							table.bigTable[i + 1][j + 1] /= 2;
 						p[i][j].color = table.bigTable[i + 1][j + 1];
 						p[i][j].repaint();
 						if ((table.bigTable[i + 1][j + 1] == -2) || (table.bigTable[i + 1][j + 1] == 2))
@@ -55,19 +57,17 @@ public class GUI extends JFrame implements MouseListener
 			}
 			catch (Exception e){}
 		}
-		setVisible(true);
 		try
 		{
 			Thread.sleep(200);
 		}
 		catch (Exception e){}		
 		player = new Player(frame.phold);
-		ai = new AlphaBetaAI(frame.ahold);
+		ai = new UCTAI(frame.ahold);
 		ai.table = table;
-		//System.out.printf("%d, %d", player.hold, ai.hold);
+		setVisible(true);
 		big.repaint();
 		big.setFocusable(true);
-		//frame.dispose();
 	}
 	public void mousePressed(MouseEvent event)
 	{
