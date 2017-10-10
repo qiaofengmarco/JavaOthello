@@ -63,7 +63,7 @@ public class VectorDNN
 	public void backward(double[] x, double[] t)
 	{
 		forward(x);
-		layer[layers - 1].backwardOut(t, 0);
+		layer[layers - 1].backwardOut(t, 0, 2);
 		for (int i = layers - 2; i >= 1; i--)
 			layer[i].backward(layer[i + 1].delta, 2, true);
 		layer[0].backward(layer[1].delta, 2, false);
@@ -95,7 +95,7 @@ public class VectorDNN
 	public boolean checkGradient(double[] x, double[] tag, int size)
 	{
 		double[] y;
-		double epsilon = 0.001, e1, e2, expected;
+		double epsilon = 0.0001, e1, e2, expected;
 		double[][] w_grad = new double[4][];
 		
 		for (int i = 1; i < 3; i++)
@@ -110,17 +110,18 @@ public class VectorDNN
 		{
 			for (int j = 0; j < layer[i].pre_nodeNum * layer[i].nodeNum; j++)
 			{
-				//System.out.printf("%d %d %f\n", i, j, w_grad[i][j]);
+				System.out.printf("%d %d\n", i, j);
 				layer[i].w[j] += epsilon;
 				e1 = calcError(forward(x), tag, size);
 				layer[i].w[j] -= 2 * epsilon;
 				e2 = calcError(forward(x), tag, size);
 				expected = (e2 - e1) / (2 * epsilon);
-				if (Math.abs(expected - w_grad[i][j]) > 0.001)
+				if (Math.abs(expected - w_grad[i][j]) > 0.0001)
 				{
-					//System.out.printf("%f %f\n", expected, w_grad[i][j]);
+					System.out.printf("%f %f\n", expected, w_grad[i][j]);
 					return false;
 				}
+				layer[i].w[j] += epsilon;
 			}
 		}
 		return true;
