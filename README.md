@@ -11,6 +11,12 @@
 ## Dependencies: 
  + Google Guava version 23.0
  + JCuda 0.8.0 (Mainly JCublas...)
+ 
+## Important Notes:
+ + I didn't deploy my QLearningAI in the game, because I had encounted problems with NeuralNetwork.
+ + To be honest, I don't know what is wrong in my NeuralNetwork.java, NetworkLayer.java, VectorDNN.java.
+ + However, my UCTAI and AlphaBeta are proved correct and the whole game frame is runnable.
+ + Please contact me if you find something wrong, especially in the files that I mention above, thanks!
 
 ## 2017.9.14 Update:
  1. Added TrainFrame class.
