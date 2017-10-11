@@ -4,7 +4,9 @@
 
 ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d2.png)
 
-![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png)
+
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d9.png)
 
 ## Dependencies: 
  + Google Guava version 23.0
@@ -28,9 +30,9 @@
  2. Finished QLearningAI.java and its debugging.
  + http://blog.csdn.net/songrotek/article/details/50917286
  
- ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d3.png)
+   ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d3.png)
  
- ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d4.png)
+   ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d4.png)
  
  3. Added many static functions in Board.java as helper function.
 
@@ -81,9 +83,16 @@
  
  2. Normalized the format of codes.
  3. Fixed bug in VectorMatrix.java.
- 4. To do next：fix VectorDNN...QAQ
- 5. Important references:
+ 
+## 2017.10.10 Update:
+ 1. Improved GUI.
+ 
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png) 
+    
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d9.png)
+    
+ 2. To do next：fix VectorDNN...QAQ
+ 3. Important references:
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
- + http://www.jcuda.org/jcuda/jcublas/doc/index.html
 
 **Modified on 2017.10.9.**
