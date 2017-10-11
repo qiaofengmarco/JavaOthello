@@ -14,7 +14,7 @@
  
 ## Important Notes:
  + I didn't deploy my QLearningAI in the game, because I had encounted problems with NeuralNetwork.
- + To be honest, I don't know what is wrong in my NeuralNetwork.java, NetworkLayer.java, VectorDNN.java.
+ + To be honest, I don't know what is going wrong in my NeuralNetwork.java, NetworkLayer.java and VectorDNN.java.
  + However, my UCTAI and AlphaBeta are proved correct and the whole game frame is runnable.
  + Please contact me if you find something wrong, especially in the files that I mention above, thanks!
 
