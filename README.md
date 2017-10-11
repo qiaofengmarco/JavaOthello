@@ -91,8 +91,10 @@
     
     ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d9.png)
     
+## 2017.10.11 Update:
+ 1. Organized the files.
  2. To do next：fix VectorDNN...QAQ
  3. Important references:
  + https://aijunbai.github.io/publications/USTC07-Bai.pdf
 
-**Modified on 2017.10.9.**
+**Modified on 2017.10.11.**
