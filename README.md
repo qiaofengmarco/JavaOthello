@@ -1,12 +1,12 @@
 # Othello
 
-![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d1.png)
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d1.png)
 
-![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d2.png)
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d2.png)
 
-![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png)
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d8.png)
 
-![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d9.png)
+![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d9.png)
 
 ## Dependencies: 
  + Google Guava version 23.0
@@ -30,9 +30,9 @@
  2. Finished QLearningAI.java and its debugging.
  + http://blog.csdn.net/songrotek/article/details/50917286
  
-   ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d3.png)
+   ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d3.png)
  
-   ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d4.png)
+   ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d4.png)
  
  3. Added many static functions in Board.java as helper function.
 
@@ -58,7 +58,7 @@
  2. Adjusted some parameters in AlphaBetaAI.java.
  3. Fixed bugs in Board.java and added new static functions as helper functions.
  
- ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d5.png)
+ ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d5.png)
  
 ## 2017.9.30 Update:
  1. Converted previous version README.md to English version. (Please forgive me for my non-native expressions...)
@@ -66,7 +66,7 @@
 ## 2017.10.8 Update:
  1. Wrote vector-based DNN VectorDNN.java. (Haven't finished yet...)
  
-    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d7.png) 
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d7.png) 
     
  2. Used JCublas API for matrix-related or vector-related computations. (VectorMatrix.java)
  + http://www.jcuda.org/jcuda/jcublas/doc/index.html
@@ -79,7 +79,7 @@
 ## 2017.10.9 Update:
  1. Improved GUI. 
  
-    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d6.png)
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d6.png)
  
  2. Normalized the format of codes.
  3. Fixed bug in VectorMatrix.java.
@@ -87,9 +87,9 @@
 ## 2017.10.10 Update:
  1. Improved GUI.
  
-    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d8.png) 
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d8.png) 
     
-    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/d9.png)
+    ![image](https://github.com/qiaofengmarco/JavaOthello/raw/master/image/d9.png)
     
  2. To do next：fix VectorDNN...QAQ
  3. Important references:
